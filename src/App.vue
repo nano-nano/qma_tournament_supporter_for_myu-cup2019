@@ -1,31 +1,57 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <!-- ナビゲーションバー -->
+    <b-navbar type="dark" variant="secondary">
+      <b-navbar-brand href="#">MYUCUP VIvid poetry</b-navbar-brand>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#" disabled>{{screenName}}</b-nav-item>
+        </b-navbar-nav>
+
+        <!-- 右寄せアイテム -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item right href="#">投影ウィンドウを○○</b-nav-item>
+          <b-nav-item-dropdown right>
+            <template slot="button-content"><em>設定</em></template>
+            <b-dropdown-item href="#">設定項目1</b-dropdown-item>
+            <b-dropdown-item href="#">設定項目2</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item right href="#" v-if="isNeedShowGoMainScreenBtn" @click="goMainScreen()">メイン画面へ</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
     <router-view/>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+    }
+  },
+  methods: {
+    goMainScreen () {
+      this.$router.replace('/')
+    }
+  },
+  computed: {
+    screenName () {
+      const name = this.$store.state.currentScreenName
+      if (name == 'entry') {
+        return 'エントリー'
+      }
+      return ''
+    },
+    isNeedShowGoMainScreenBtn () {
+      return this.$store.state.currentScreenName != 'main'
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
