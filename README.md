@@ -37,10 +37,10 @@ $ yarn install
 
 ### 開発モードで起動
 ```
-$ yarn run serve
+$ yarn electron:serve
 ```
 
 ### リリース用ビルド実施
 ```
-$ yarn run build
+$ yarn electron:build
 ```
