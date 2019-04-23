@@ -71,7 +71,7 @@
                     <b-button variant="outline-primary" disabled>↓</b-button>
                   </b-button-group>
                   <b-button-group class="mx-1">
-                    <b-button variant="outline-danger" disabled>削除</b-button>
+                    <b-button variant="outline-danger" @click="deletePlayerData(playerData.entryNo)">削除</b-button>
                   </b-button-group>
                 </td>
               </tr>
@@ -86,6 +86,10 @@
         </b-col>
       </b-row>
     </b-container>
+
+    <!-- ダイアログ -->
+    <confirm-dialog ref="deleteConfirmDialog" 
+      message="削除します。よろしいですか？¥n（この操作は元に戻せません）"></confirm-dialog>
   </div>
 </template>
 
@@ -93,8 +97,13 @@
 // import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 
+import ConfirmDialog from './Common/ConfirmDialog'
+
 export default {
   name: 'EntryScreen',
+  components: {
+    ConfirmDialog
+  },
   data () {
     return {
       allPlayersData: [
@@ -108,6 +117,16 @@ export default {
       let newPlayer = PlayerUtils.createPlayerData(parseInt(maxEntryNo) + 1, '', false)
       newPlayer.roundDatas['R1'] = PlayerUtils.createEmptyRoundData()
       this.allPlayersData.push(newPlayer)
+    },
+    deletePlayerData (targetEntryNo) {
+      // TODO: 確認ダイアログを出す処理
+      // let newList = []
+      // for (const playerData of this.allPlayersData) {
+      //   if (playerData.entryNo != targetEntryNo) {
+      //     newList.push(playerData)
+      //   }
+      // }
+      // this.allPlayersData = newList
     }
   },
   mounted: function () {
