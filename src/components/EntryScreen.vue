@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="playerData of allPlayersData" :key="playerData.entryNo">
+              <tr v-for="(playerData, idx) of allPlayersData" :key="playerData.entryNo">
                 <td style="text-align: center; vertical-align: middle;">
                   {{playerData.entryNo}}
                 </td>
@@ -67,11 +67,11 @@
                 </td>
                 <td style="text-align: center; vertical-align: middle;">
                   <b-button-group class="mx-1">
-                    <b-button variant="outline-primary" disabled>↑</b-button>
-                    <b-button variant="outline-primary" disabled>↓</b-button>
+                    <b-button variant="outline-primary" @click="upToData(idx)">↑</b-button>
+                    <b-button variant="outline-primary" @click="downToData(idx)">↓</b-button>
                   </b-button-group>
                   <b-button-group class="mx-1">
-                    <b-button variant="outline-danger" @click="deletePlayerData(playerData.entryNo)">削除</b-button>
+                    <b-button variant="outline-danger" @click="confirmDeleteData(playerData.entryNo)">削除</b-button>
                   </b-button-group>
                 </td>
               </tr>
@@ -89,7 +89,8 @@
 
     <!-- ダイアログ -->
     <confirm-dialog ref="deleteConfirmDialog" 
-      message="削除します。よろしいですか？¥n（この操作は元に戻せません）"></confirm-dialog>
+      message="削除します。よろしいですか？<br>（この操作は元に戻せません）"
+      v-on:onOkClicked="deletePlayerData"></confirm-dialog>
   </div>
 </template>
 
@@ -118,15 +119,38 @@ export default {
       newPlayer.roundDatas['R1'] = PlayerUtils.createEmptyRoundData()
       this.allPlayersData.push(newPlayer)
     },
+    confirmDeleteData (targetEntryNo) {
+      // ダイアログ表示
+      this.$refs['deleteConfirmDialog'].show(targetEntryNo)
+    }, 
     deletePlayerData (targetEntryNo) {
-      // TODO: 確認ダイアログを出す処理
-      // let newList = []
-      // for (const playerData of this.allPlayersData) {
-      //   if (playerData.entryNo != targetEntryNo) {
-      //     newList.push(playerData)
-      //   }
-      // }
-      // this.allPlayersData = newList
+      let newList = []
+      for (const playerData of this.allPlayersData) {
+        if (playerData.entryNo != targetEntryNo) {
+          newList.push(playerData)
+        }
+      }
+      this.allPlayersData = newList
+    },
+    upToData (index) {
+      if (index == 0) {
+          // 先頭なので、これ以上上げられない
+          return
+      }
+
+      const target = this.allPlayersData[index]
+      this.allPlayersData.splice(index, 1)
+      this.allPlayersData.splice(index - 1, 0, target)
+    },
+    downToData (index) {
+      if (index == (this.allPlayersData.length - 1)) {
+        // 末尾なので、これ以上上げられない
+        return;
+      }
+
+      const target = this.allPlayersData[index]
+      this.allPlayersData.splice(index, 1)
+      this.allPlayersData.splice(index + 1, 0, target)
     }
   },
   mounted: function () {
