@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal ref="modal" title="確認" @ok="onOkClicked()" @cancel="onCancelClicked()">
+    <b-modal ref="modal" hide-header ok-only @ok="onOkClicked()">
       <span v-html="message"></span>
     </b-modal>
   </div>
@@ -19,9 +19,6 @@
       },
       onOkClicked () {
         this.$emit('onOkClicked')
-      },
-      onCancelClicked () {
-        this.$emit('onCancelClicked')
       }
     }
   }

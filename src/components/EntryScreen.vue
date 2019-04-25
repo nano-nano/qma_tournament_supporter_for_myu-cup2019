@@ -11,7 +11,7 @@
               <b-button block variant="outline-primary" disabled>再読み込み</b-button>
             </b-col>
             <b-col cols="6">
-              <b-button block variant="outline-primary" disabled>保存</b-button>
+              <b-button block variant="outline-primary" @click="saveData">保存</b-button>
             </b-col>
           </b-row>
         </b-col>
@@ -91,24 +91,29 @@
     <confirm-dialog ref="deleteConfirmDialog" 
       message="削除します。よろしいですか？<br>（この操作は元に戻せません）"
       v-on:onOkClicked="deletePlayerData"></confirm-dialog>
+    <notification-dialog ref="saveNotificationDialog" 
+      message="保存しました！"></notification-dialog>
   </div>
 </template>
 
 <script>
-// import FileUtils from '../logic/FileUtils.js'
+import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 
 import ConfirmDialog from './Common/ConfirmDialog'
+import NotificationDialog from './Common/NotificationDialog'
 
 export default {
   name: 'EntryScreen',
   components: {
-    ConfirmDialog
+    ConfirmDialog,
+    NotificationDialog
   },
   data () {
     return {
       allPlayersData: [
-      ]
+      ],
+      deleteTargetEntryNo: -1
     }
   },
   methods: {
@@ -121,12 +126,13 @@ export default {
     },
     confirmDeleteData (targetEntryNo) {
       // ダイアログ表示
-      this.$refs['deleteConfirmDialog'].show(targetEntryNo)
+      this.$refs['deleteConfirmDialog'].show()
+      this.deleteTargetEntryNo = targetEntryNo
     }, 
-    deletePlayerData (targetEntryNo) {
+    deletePlayerData () {
       let newList = []
       for (const playerData of this.allPlayersData) {
-        if (playerData.entryNo != targetEntryNo) {
+        if (playerData.entryNo != this.deleteTargetEntryNo) {
           newList.push(playerData)
         }
       }
@@ -151,6 +157,12 @@ export default {
       const target = this.allPlayersData[index]
       this.allPlayersData.splice(index, 1)
       this.allPlayersData.splice(index + 1, 0, target)
+    },
+    saveData () {
+      FileUtils.saveAllPlayersData(this.allPlayersData)
+        .then(() => {
+          this.$refs['saveNotificationDialog'].show()
+        })
     }
   },
   mounted: function () {
