@@ -11,14 +11,14 @@
               <b-button block variant="outline-primary" @click="loadPlayerDataJson(true)">再読み込み</b-button>
             </b-col>
             <b-col cols="6">
-              <b-button block variant="outline-primary" @click="saveData">保存</b-button>
+              <b-button block variant="outline-primary" @click="onClickSaveBtn()">保存</b-button>
             </b-col>
           </b-row>
         </b-col>
       </b-row>
       <hr>
 
-      <!-- エントリーデータリスト -->
+      <!-- エントリーデータテーブル -->
       <b-row>
         <b-col>
           <table class="table table-condensed table-hover table-bordered">
@@ -48,7 +48,7 @@
                       第
                     </b-col>
                     <b-col>
-                      <b-form-input v-model="playerData.roundDatas['R1'].setNo"></b-form-input>
+                      <b-form-input type="number" v-model="playerData.roundDatas['R1'].setNo"></b-form-input>
                     </b-col>
                     <b-col cols="3">
                       試合
@@ -58,7 +58,7 @@
                 <td style="text-align: center; vertical-align: middle;">
                   <b-row align-v="center">
                     <b-col>
-                      <b-form-input v-model="playerData.roundDatas['R1'].seatNo"></b-form-input>
+                      <b-form-input type="number" v-model="playerData.roundDatas['R1'].seatNo"></b-form-input>
                     </b-col>
                     <b-col cols="3">
                       番
@@ -90,11 +90,15 @@
     <!-- ダイアログ -->
     <confirm-dialog ref="deleteConfirmDialog" 
       message="削除します。よろしいですか？<br>（この操作は元に戻せません）"
-      v-on:onOkClicked="deletePlayerData"></confirm-dialog>
+      v-on:onOkClicked="deletePlayerData()"></confirm-dialog>
     <notification-dialog ref="importNotificationDialog" message="インポートしました！"></notification-dialog>
     <notification-dialog ref="loadNotificationDialog" message="ロードしました！"></notification-dialog>
     <error-dialog ref="loadErrorDialog" message="ロードに失敗しました"></error-dialog>
     <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
+    <error-dialog ref="invalidDataErrorDialog" message="エントリーデータが正しくないプレイヤーがいます"></error-dialog>
+    <confirm-dialog ref="notEnoughConfirmDialog" 
+      message="有効なプレイヤーの数が4の倍数ではありません。<br>保存してよろしいですか？"
+      v-on:onOkClicked="saveData()"></confirm-dialog>
   </div>
 </template>
 
@@ -179,10 +183,37 @@ export default {
       this.allPlayersData.splice(index, 1)
       this.allPlayersData.splice(index + 1, 0, target)
     },
+    onClickSaveBtn () {
+      // 値チェック
+      const invalidEntry = this.allPlayersData.filter((o) => {
+        return o.cardName == ''
+          || isNaN(parseInt(o.roundDatas['R1'].setNo))
+          || isNaN(parseInt(o.roundDatas['R1'].seatNo))
+      })
+      if (invalidEntry.length != 0) {
+        this.$refs['invalidDataErrorDialog'].show()
+        return
+      }
+
+      // 有効参加者チェック
+      const activatedEntry = this.allPlayersData.filter((o) => {
+        return o.cardName != ''
+          && parseInt(o.roundDatas['R1'].setNo) != 0
+          && parseInt(o.roundDatas['R1'].seatNo) != 0
+      })
+      if (activatedEntry.length % 4 != 0) {
+        this.$refs['notEnoughConfirmDialog'].show()
+      } else {
+        this.saveData()
+      }
+    },
     saveData () {
-      // ToDo: 値チェック（parseInt() => NaNが無いか）
-      // ToDo: 有効参加者チェック（SetとSeatが正しいPlayerが4の倍数か？ダミーありMsg）
-      FileUtils.saveAllPlayersData(this.allPlayersData)
+      const activatedEntry = this.allPlayersData.filter((o) => {
+        return o.cardName != ''
+          && parseInt(o.roundDatas['R1'].setNo) != 0
+          && parseInt(o.roundDatas['R1'].seatNo) != 0
+      })
+      FileUtils.saveAllPlayersData(activatedEntry)
         .then(() => {
           this.$refs['saveNotificationDialog'].show()
         })
@@ -198,6 +229,7 @@ export default {
 
 <style scoped>
 div.container {
-  margin-top: 10px;
+  margin-top: 100px;
+  margin-bottom: 25px;
 }
 </style>

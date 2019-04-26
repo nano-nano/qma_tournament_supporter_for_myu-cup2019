@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <!-- ナビゲーションバー -->
-    <b-navbar type="dark" variant="secondary">
+    <b-navbar type="dark" variant="secondary" fixed="top">
       <b-navbar-brand href="#">MYUCUP VIvid poetry</b-navbar-brand>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="#" disabled>{{screenName}}</b-nav-item>
+          <b-nav-text>{{screenName}}</b-nav-text>
         </b-navbar-nav>
 
         <!-- 右寄せアイテム -->
@@ -43,6 +43,8 @@ export default {
       const name = this.$store.state.currentScreenName
       if (name == 'entry') {
         return 'エントリー'
+      } else if (name == 'round1') {
+        return '１回戦'
       }
       return ''
     },
