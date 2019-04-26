@@ -11,6 +11,10 @@ import 'bootstrap-honoka/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
+// VueElectron(Vue.jsのElectronラッパー)をimport
+import VueElectron from 'vue-electron'
+Vue.use(VueElectron)
+
 new Vue({
   router,
   store,

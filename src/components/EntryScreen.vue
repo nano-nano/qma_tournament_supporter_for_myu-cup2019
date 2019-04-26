@@ -91,8 +91,7 @@
     <confirm-dialog ref="deleteConfirmDialog" 
       message="削除します。よろしいですか？<br>（この操作は元に戻せません）"
       v-on:onOkClicked="deletePlayerData"></confirm-dialog>
-    <notification-dialog ref="saveNotificationDialog" 
-      message="保存しました！"></notification-dialog>
+    <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
   </div>
 </template>
 
