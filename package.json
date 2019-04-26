@@ -20,8 +20,10 @@
     "bootstrap-vue": "^2.0.0-rc.18",
     "core-js": "^2.6.5",
     "fs-extra": "^7.0.1",
+    "moji": "^0.5.1",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
+    "vue-loading-overlay": "^3.2.0",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1",
     "xlsx-populate": "^1.19.1"

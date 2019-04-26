@@ -2,6 +2,9 @@
 
 import FsExtra from 'fs-extra'
 import XlsxPopulate from 'xlsx-populate'
+import Moji from 'moji'
+
+import PlayerUtils from './PlayerUtils.js'
 
 export default class FileUtils {
 
@@ -35,18 +38,22 @@ export default class FileUtils {
     }
 
     static importEntryDataExcel (filePath) {
-        XlsxPopulate.fromFileAsync(filePath).then((workbook) => {
+        let returnArray = []
+        return XlsxPopulate.fromFileAsync(filePath).then((workbook) => {
             const sheet = workbook.sheet('rawData')
             let entryNoCell = sheet.cell('B4')
             // EntryNo.セルに'END'が出るまでデータをインポート
             while (entryNoCell.value() != 'END') {
-                console.debug(entryNoCell.value() + ', ')
-                console.debug(entryNoCell.relativeCell(0, 1).value() + ', ')
-                console.debug(entryNoCell.relativeCell(0, 3).value())
-                console.debug('---')
+                let newPlayer = PlayerUtils.createPlayerData(
+                    parseInt(entryNoCell.value()),
+                    Moji(entryNoCell.relativeCell(0, 1).value()).convert('HE', 'ZE').toString(),
+                    (entryNoCell.relativeCell(0, 3).value() == '○'))
+                newPlayer.roundDatas['R1'] = PlayerUtils.createEmptyRoundData()
+                returnArray.push(newPlayer)
 
                 entryNoCell = entryNoCell.relativeCell(1, 0)
             }
+            return returnArray
         })
     }
 }

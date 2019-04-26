@@ -3,12 +3,12 @@
     <b-container>
       <b-row align-h="between">
         <b-col cols="4">
-          <b-button variant="outline-primary" disabled>エントリーExcelデータをインポート</b-button>
+          <b-button variant="outline-primary" @click="importEntryDataExcel()">エントリーExcelデータをインポート</b-button>
         </b-col>
         <b-col cols="3">
           <b-row align-h="end">
             <b-col cols="6">
-              <b-button block variant="outline-primary" disabled>再読み込み</b-button>
+              <b-button block variant="outline-primary" @click="loadPlayerDataJson(true)">再読み込み</b-button>
             </b-col>
             <b-col cols="6">
               <b-button block variant="outline-primary" @click="saveData">保存</b-button>
@@ -91,6 +91,9 @@
     <confirm-dialog ref="deleteConfirmDialog" 
       message="削除します。よろしいですか？<br>（この操作は元に戻せません）"
       v-on:onOkClicked="deletePlayerData"></confirm-dialog>
+    <notification-dialog ref="importNotificationDialog" message="インポートしました！"></notification-dialog>
+    <notification-dialog ref="loadNotificationDialog" message="ロードしました！"></notification-dialog>
+    <error-dialog ref="loadErrorDialog" message="ロードに失敗しました"></error-dialog>
     <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
   </div>
 </template>
@@ -101,12 +104,14 @@ import PlayerUtils from '../logic/PlayerUtils.js'
 
 import ConfirmDialog from './Common/ConfirmDialog'
 import NotificationDialog from './Common/NotificationDialog'
+import ErrorDialog from './Common/ErrorDialog'
 
 export default {
   name: 'EntryScreen',
   components: {
     ConfirmDialog,
-    NotificationDialog
+    NotificationDialog,
+    ErrorDialog
   },
   data () {
     return {
@@ -116,6 +121,28 @@ export default {
     }
   },
   methods: {
+    importEntryDataExcel () {
+      this.$electron.remote.dialog.showOpenDialog(this.$electron.BrowserWindow, (filePaths) => {
+        if (filePaths != undefined && filePaths.length == 1) {
+          FileUtils.importEntryDataExcel(filePaths[0]).then((playersData) => {
+            this.allPlayersData = playersData
+            this.$refs['importNotificationDialog'].show()
+          }).catch(() => {
+            this.$refs['loadErrorDialog'].show()
+          })
+        }
+      })
+    },
+    loadPlayerDataJson (isNotify) {
+      FileUtils.loadAllPlayersData().then((loadData) => {
+        if (loadData != null) {
+          this.allPlayersData = loadData
+          if (isNotify) this.$refs['loadNotificationDialog'].show()
+        } else {
+          if (isNotify) this.$refs['loadErrorDialog'].show()
+        }
+      })
+    },
     addNewPlayerData () {
       const entryNoList = this.allPlayersData.map(function(o){return o.entryNo})
       const maxEntryNo = (entryNoList.length == 0 ? 0 : Math.max.apply(null, entryNoList))
@@ -124,7 +151,6 @@ export default {
       this.allPlayersData.push(newPlayer)
     },
     confirmDeleteData (targetEntryNo) {
-      // ダイアログ表示
       this.$refs['deleteConfirmDialog'].show()
       this.deleteTargetEntryNo = targetEntryNo
     }, 
@@ -138,26 +164,24 @@ export default {
       this.allPlayersData = newList
     },
     upToData (index) {
-      if (index == 0) {
-          // 先頭なので、これ以上上げられない
-          return
-      }
+      // 先頭チェック
+      if (index == 0) return
 
       const target = this.allPlayersData[index]
       this.allPlayersData.splice(index, 1)
       this.allPlayersData.splice(index - 1, 0, target)
     },
     downToData (index) {
-      if (index == (this.allPlayersData.length - 1)) {
-        // 末尾なので、これ以上上げられない
-        return;
-      }
+      // 末尾チェック
+      if (index == (this.allPlayersData.length - 1)) return
 
       const target = this.allPlayersData[index]
       this.allPlayersData.splice(index, 1)
       this.allPlayersData.splice(index + 1, 0, target)
     },
     saveData () {
+      // ToDo: 値チェック（parseInt() => NaNが無いか）
+      // ToDo: 有効参加者チェック（SetとSeatが正しいPlayerが4の倍数か？ダミーありMsg）
       FileUtils.saveAllPlayersData(this.allPlayersData)
         .then(() => {
           this.$refs['saveNotificationDialog'].show()
@@ -166,6 +190,8 @@ export default {
   },
   mounted: function () {
     this.$store.commit('updateCurrentScreen', 'entry')
+    // JSONデータロード
+    this.loadPlayerDataJson(false)
   }
 }
 </script>
