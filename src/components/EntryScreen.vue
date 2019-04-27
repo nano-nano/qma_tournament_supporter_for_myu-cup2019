@@ -201,7 +201,7 @@ export default {
           && parseInt(o.roundDatas['R1'].setNo) != 0
           && parseInt(o.roundDatas['R1'].seatNo) != 0
       })
-      if (activatedEntry.length % 4 != 0) {
+      if (activatedEntry.length == 0 || activatedEntry.length % 4 != 0) {
         this.$refs['notEnoughConfirmDialog'].show()
       } else {
         this.saveData()
