@@ -36,6 +36,13 @@ export default class PlayerUtils {
         }
     }
 
+    /**
+     * ダミーデータを生成して返します
+     * 
+     * @param {String} roundName ラウンド名
+     * @param {Number} setNo 試合番号
+     * @param {Number} seatNo 座席番号
+     */
     static createDummyPlayer (roundName, setNo, seatNo) {
         let result = this.createPlayerData(999, '（ダミー）', false)
         let roundData = this.createEmptyRoundData()
@@ -50,6 +57,15 @@ export default class PlayerUtils {
         return playerData.roundDatas[roundName]
     }
 
+    /**
+     * 与えられたラウンド名、試合番号、座席番号で配列を検索し、該当するプレイヤーのデータを返します
+     * 該当するデータが無い場合、nullを返します
+     * 
+     * @param {Array} playerDataArray 
+     * @param {String} roundName 
+     * @param {Number} setNo 
+     * @param {Number} seatNo 
+     */
     static extractPlayerDataBySetSeatNo (playerDataArray, roundName, setNo, seatNo) {
         const result = playerDataArray.find((e => {
             const roundData = e.roundDatas[roundName]

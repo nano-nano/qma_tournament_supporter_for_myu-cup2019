@@ -9,7 +9,7 @@
         <b-col cols="4">
           <b-row>
             <b-col cols="6">
-              <b-button variant="outline-primary" block disabled>成績自動追尾</b-button>
+              <b-button variant="outline-primary" :pressed.sync="isAutoImportRunning" block>成績自動追尾</b-button>
             </b-col>
             <b-col cols="6">
               <b-button variant="outline-primary" block disabled>Twitter速報</b-button>
@@ -20,21 +20,21 @@
       <hr>
 
       <!-- 組み合わせデータテーブル -->
-      <b-row>
+      <b-row style="height: 62.5vh; overflow:auto;">
         <b-col>
           <table class="table table-condensed table-hover table-bordered">
             <thead>
               <tr>
-                <th width="7.5%">試合ID</th>
-                <th width="5%">EntryNo.</th>
+                <th width="7.25%">試合ID</th>
+                <th width="5%">Entry</th>
                 <th width="12.5%">カードネーム</th>
                 <th width="12.5%">ジャンル</th>
-                <th width="12.5%">形式</th>
+                <th width="15.25%">形式</th>
                 <th width="10%">難易度</th>
-                <th width="10%">素点</th>
+                <th width="8.75%">素点</th>
                 <th width="5%">順位</th>
-                <th width="7.5%">惜敗率</th>
-                <th width="5%">判定</th>
+                <th width="8.75%">惜敗率</th>
+                <th width="5%">勝抜</th>
                 <th width="10%"></th>
               </tr>
             </thead>
@@ -64,16 +64,16 @@
                 <td style="text-align: center; vertical-align: middle;">
                   {{playerData.rank}}
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
-                  {{playerData.defRate * 100}} %
+                <td style="text-align: right; vertical-align: middle;">
+                  {{formatDefRate(playerData.defRate)}} %
                 </td>
                 <td style="text-align: center; vertical-align: middle;">
                   <b-form-checkbox v-model="playerData.isWin"></b-form-checkbox>
                 </td>
                 <td style="border-style: none;">
                   <b-button variant="outline-primary" v-if="idx % 4 == 0" block disabled>再取込</b-button>
-                  <b-button variant="outline-primary" v-if="idx % 4 == 1" block disabled>再計算</b-button>
-                  <b-button variant="outline-primary" v-if="idx % 4 == 2" block disabled>保存</b-button>
+                  <b-button variant="outline-primary" v-if="idx % 4 == 1" block @click="calcScore(playerData.setNo)">再計算</b-button>
+                  <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo)">保存</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 3" block disabled>拡大表示</b-button>
                 </td>
               </tr>
@@ -81,10 +81,18 @@
           </table>
         </b-col>
       </b-row>
+      <hr>
+
+      <b-row align-h="end">
+        <b-col cols="3">
+          <b-button variant="outline-primary" block disabled>1回戦終了</b-button>
+        </b-col>
+      </b-row>
 
     </b-container>
 
     <!-- ダイアログ -->
+    <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
   </div>
 </template>
 
@@ -92,21 +100,23 @@
 import Constants from '../Constants.js'
 import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
+import ScoreUtils from '../logic/ScoreUtils.js'
 
 // import ConfirmDialog from './Common/ConfirmDialog'
-// import NotificationDialog from './Common/NotificationDialog'
+import NotificationDialog from './Common/NotificationDialog'
 // import ErrorDialog from './Common/ErrorDialog'
 
 export default {
   name: 'Round1Screen',
   components: {
     // ConfirmDialog,
-    // NotificationDialog,
+    NotificationDialog,
     // ErrorDialog
   },
   data () {
     return {
       extractedPlayersData: [],
+      isAutoImportRunning: false,
       GENRE: Constants.GENRE,
       STYLE: Constants.STYLE,
       DIFFICULTY: Constants.DIFFICULTY
@@ -138,9 +148,28 @@ export default {
                 defRate: roundData.defRate,
                 isWin: roundData.isWin,
                 isDefWin: roundData.isDefWin,
-            });
+            })
           }
         }
+      })
+    },
+    calcScore (setNo) {
+      let targetPlayersData = this.extractedPlayersData.filter((e) => {
+        return e.setNo == setNo
+      })
+      ScoreUtils.calcScoreAndDefRate(targetPlayersData, 2)
+    },
+    formatDefRate (defRate) {
+      return ScoreUtils.roundForShow(defRate * 100, 3)
+    },
+    saveScore (setNo) {
+      let targetPlayersData = this.extractedPlayersData.filter((e) => {
+        return e.setNo == setNo
+      })
+      ScoreUtils.updateScore(targetPlayersData, 'R1').then((updatedData) => {
+        return FileUtils.saveAllPlayersData(updatedData)
+      }).then(() => {
+        this.$refs['saveNotificationDialog'].show()
       })
     },
     validScore (score) {
