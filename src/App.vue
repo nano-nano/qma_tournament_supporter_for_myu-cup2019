@@ -56,4 +56,8 @@ export default {
 </script>
 
 <style>
+/* スクロールあり/なし画面でスクロールバーによりチラつくのを防ぐための設定 */
+body {
+  overflow-y: scroll;
+}
 </style>
