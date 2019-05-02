@@ -2,6 +2,10 @@
 
 export default class Constants {
 
+    static get SETTING_FILE_NAME () {
+        return "settings"
+    }
+
     /**
      * ジャンル配列
      */

@@ -14,7 +14,7 @@
           <b-nav-item right href="#">投影ウィンドウを○○</b-nav-item>
           <b-nav-item-dropdown right>
             <template slot="button-content"><em>設定</em></template>
-            <b-dropdown-item href="#">設定項目1</b-dropdown-item>
+            <b-dropdown-item href="#" @click="showScoreImportUrlDialog()">試合結果取得設定</b-dropdown-item>
             <b-dropdown-item href="#">設定項目2</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item right href="#" v-if="isNeedShowGoMainScreenBtn" @click="goMainScreen()">メイン画面へ</b-nav-item>
@@ -23,12 +23,20 @@
     </b-navbar>
 
     <router-view/>
+
+    <!-- ダイアログ -->
+    <score-import-url-dialog ref="scoreImportUrlDialog"></score-import-url-dialog>
   </div>
 </template>
 
 <script>
+import ScoreImportUrlDialog from './components/Settings/ScoreImportUrlDialog'
+
 export default {
   name: 'App',
+  components: {
+    ScoreImportUrlDialog,
+  },
   data () {
     return {
     }
@@ -36,6 +44,9 @@ export default {
   methods: {
     goMainScreen () {
       this.$router.replace('/')
+    },
+    showScoreImportUrlDialog () {
+      this.$refs['scoreImportUrlDialog'].show()
     }
   },
   computed: {

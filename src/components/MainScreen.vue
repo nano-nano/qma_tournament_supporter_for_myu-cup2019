@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import Constants from '../Constants.js'
 import FileUtils from '../logic/FileUtils.js'
 
 export default {
@@ -29,6 +30,10 @@ export default {
     // 参加者データJSONファイルがあるかの確認、なければ空のファイルを作っておく
     if (!FileUtils.isAllPlayersDataJsonExist()) {
       FileUtils.saveAllPlayersData({})
+    }
+    // 設定JSONファイルがあるかの確認、なければ空のファイルを作っておく
+    if (!FileUtils.isJsonFileExist(Constants.SETTING_FILE_NAME)) {
+      FileUtils.saveJsonFile(Constants.SETTING_FILE_NAME, {})
     }
   }
 }
