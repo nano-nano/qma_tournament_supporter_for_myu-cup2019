@@ -71,7 +71,7 @@
                   <b-form-checkbox v-model="playerData.isWin"></b-form-checkbox>
                 </td>
                 <td style="border-style: none;">
-                  <b-button variant="outline-primary" v-if="idx % 4 == 0" block disabled>再取込</b-button>
+                  <b-button variant="outline-primary" v-if="idx % 4 == 0" block @click="importScore()" :disabled="isScoreImporting">再取込</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 1" block @click="calcScore(playerData.setNo)">再計算</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo)">保存</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 3" block disabled>拡大表示</b-button>
@@ -101,6 +101,7 @@ import Constants from '../Constants.js'
 import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 import ScoreUtils from '../logic/ScoreUtils.js'
+import ScrapingUtils from '../logic/ScrapingUtils.js'
 
 // import ConfirmDialog from './Common/ConfirmDialog'
 import NotificationDialog from './Common/NotificationDialog'
@@ -117,6 +118,7 @@ export default {
     return {
       extractedPlayersData: [],
       isAutoImportRunning: false,
+      isScoreImporting: false,
       GENRE: Constants.GENRE,
       STYLE: Constants.STYLE,
       DIFFICULTY: Constants.DIFFICULTY
@@ -170,6 +172,34 @@ export default {
         return FileUtils.saveAllPlayersData(updatedData)
       }).then(() => {
         this.$refs['saveNotificationDialog'].show()
+      })
+    },
+    importScore () {
+      this.isScoreImporting = true
+      ScrapingUtils.importLatestScore().then((importedDataArray) => {
+        // 結果をUIに反映
+        for (let importedData of importedDataArray) {
+            for (let parentData of this.extractedPlayersData) {
+                if (parentData.cardName == importedData.cardName) {
+                    // データを設定
+                    parentData.genre = importedData.genre
+                    parentData.style = importedData.style
+                    parentData.difficulty = importedData.difficulty
+                    parentData.score = importedData.score
+                    break
+                }
+            }
+        }
+        this.isScoreImporting = false
+
+        // 処理結果をtoastで表示
+        this.$bvToast.toast('最新の成績を取り込みました', {
+          title: 'QMA Tournament Supporter',
+          solid: true,
+          autoHideDelay: 5000,
+        })
+      }).catch(() => {
+        this.isScoreImporting = false
       })
     },
     validScore (score) {

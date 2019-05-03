@@ -29,9 +29,10 @@ import FileUtils from '../../logic/FileUtils.js'
         this.$refs.modal.show()
       },
       onOkClicked () {
-        const settings = FileUtils.loadJsonFile(Constants.SETTING_FILE_NAME)
-        settings.scoreUrl = this.importUrl
-        FileUtils.saveJsonFile(Constants.SETTING_FILE_NAME, settings)
+        FileUtils.loadJsonFile(Constants.SETTING_FILE_NAME).then((settings) => {
+          settings.scoreUrl = this.importUrl
+          FileUtils.saveJsonFile(Constants.SETTING_FILE_NAME, settings)
+        })
       }
     }
   }

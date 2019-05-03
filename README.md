@@ -31,16 +31,34 @@ $ yarn --version
 
 ```
 $ git clone https://github.com/nano-nano/qma_tournament_supporter_for_myu-cup2019.git
-
 $ yarn install
 ```
 
 ### 開発モードで起動
+
 ```
 $ yarn electron:serve
 ```
 
 ### リリース用ビルド実施
+
 ```
 $ yarn electron:build
 ```
+
+### Webスクレイピングのための手動修正
+
+Webスクレイピングに利用する```cheerio-httpcli```ライブラリが利用している```iconv-lite```ライブラリがWebpackでのパッケージングに際し問題を起こしてしまうため、
+```qma_tournament_supporter_for_myu-cup2019\node_modules\iconv-lite\lib\index.js```の次の２行を手動で修正する必要があります。
+
+```
+require("./streams")(iconv);
+↓
+require("./streams.js")(iconv); 
+
+require("./extend-node")(iconv);
+↓
+require("./extend-node.js")(iconv);
+```
+
+詳細は https://github.com/ashtuchkin/iconv-lite/issues/204 を参照してください。
