@@ -25,17 +25,17 @@
     <router-view/>
 
     <!-- ダイアログ -->
-    <score-import-url-dialog ref="scoreImportUrlDialog"></score-import-url-dialog>
+    <score-import-settings-dialog ref="scoreImportSettingsDialog"></score-import-settings-dialog>
   </div>
 </template>
 
 <script>
-import ScoreImportUrlDialog from './components/Settings/ScoreImportUrlDialog'
+import ScoreImportSettingsDialog from './components/settings/ScoreImportSettingsDialog'
 
 export default {
   name: 'App',
   components: {
-    ScoreImportUrlDialog,
+    ScoreImportSettingsDialog,
   },
   data () {
     return {
@@ -46,7 +46,7 @@ export default {
       this.$router.replace('/')
     },
     showScoreImportUrlDialog () {
-      this.$refs['scoreImportUrlDialog'].show()
+      this.$refs['scoreImportSettingsDialog'].show()
     }
   },
   computed: {

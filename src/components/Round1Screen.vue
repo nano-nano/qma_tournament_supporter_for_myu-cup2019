@@ -97,6 +97,8 @@
 </template>
 
 <script>
+import { setInterval, clearInterval } from 'timers'
+
 import Constants from '../Constants.js'
 import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
@@ -104,7 +106,7 @@ import ScoreUtils from '../logic/ScoreUtils.js'
 import ScrapingUtils from '../logic/ScrapingUtils.js'
 
 // import ConfirmDialog from './Common/ConfirmDialog'
-import NotificationDialog from './Common/NotificationDialog'
+import NotificationDialog from './common/NotificationDialog'
 // import ErrorDialog from './Common/ErrorDialog'
 
 export default {
@@ -119,6 +121,7 @@ export default {
       extractedPlayersData: [],
       isAutoImportRunning: false,
       isScoreImporting: false,
+      fetchTimer: null,
       GENRE: Constants.GENRE,
       STYLE: Constants.STYLE,
       DIFFICULTY: Constants.DIFFICULTY
@@ -200,6 +203,13 @@ export default {
         })
       }).catch(() => {
         this.isScoreImporting = false
+        // 処理結果をtoastで表示
+        this.$bvToast.toast('成績取り込みに失敗しました', {
+          title: 'QMA Tournament Supporter',
+          solid: true,
+          variant: 'danger',
+          autoHideDelay: 5000,
+        })
       })
     },
     validScore (score) {
@@ -209,6 +219,30 @@ export default {
   mounted: function () {
     this.$store.commit('updateCurrentScreen', 'round1')
     this.loadRoundPlayersData()
+  },
+  watch: {
+    isAutoImportRunning: function (newVal) {
+      if (newVal) {
+        // 自動追尾停止 -> 自動追尾実行
+        FileUtils.loadJsonFile(Constants.SETTING_FILE_NAME).then((data) => {
+          const intervalSec = (data.importIntervalSec != undefined) ? data.importIntervalSec : 45
+          this.fetchTimer = setInterval(() => this.importScore(), intervalSec * 1000)
+        })
+      } else {
+        // 自動追尾実行 -> 自動追尾停止
+        if (this.fetchTimer != null) {
+          clearInterval(this.fetchTimer)
+          this.fetchTimer = null
+        }
+      }
+    }
+  },
+  beforeDestroy: function () {
+    // 成績自動追尾タイマーを強制停止する
+    if (this.fetchTimer != null) {
+      clearInterval(this.fetchTimer)
+      this.fetchTimer = null
+    }
   }
 }
 </script>

@@ -106,9 +106,9 @@
 import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 
-import ConfirmDialog from './Common/ConfirmDialog'
-import NotificationDialog from './Common/NotificationDialog'
-import ErrorDialog from './Common/ErrorDialog'
+import ConfirmDialog from './common/ConfirmDialog'
+import NotificationDialog from './common/NotificationDialog'
+import ErrorDialog from './common/ErrorDialog'
 
 export default {
   name: 'EntryScreen',
