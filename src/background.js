@@ -37,6 +37,9 @@ function createWindow () {
   })
 }
 
+// 別ウィンドウ表示用の基底URL解決用に、MainProcessのグローバル変数に定義
+global.baseUrl = isDevelopment ? process.env.WEBPACK_DEV_SERVER_URL : 'app://./index.html'
+
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar

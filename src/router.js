@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import MainScreen from './components/MainScreen.vue'
 import EntryScreen from './components/EntryScreen.vue'
 import Round1Screen from './components/Round1Screen.vue'
+
+import EmptyScreen from './components/projection/EmptyScreen.vue'
+import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
 
 Vue.use(Router)
 
@@ -22,6 +26,17 @@ export default new Router({
       path: '/round1',
       name: 'round1',
       component: Round1Screen
+    },
+    //
+    {
+      path: '/empty',
+      name: 'empty',
+      component: EmptyScreen
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: TestDisplayScreen
     },
     // {
     //   path: '/about',

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- ナビゲーションバー -->
-    <b-navbar type="dark" variant="secondary" fixed="top">
+    <b-navbar v-if="isNeedNavBar" type="dark" variant="secondary" fixed="top">
       <b-navbar-brand href="#">MYUCUP VIvid poetry</b-navbar-brand>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -11,7 +11,9 @@
 
         <!-- 右寄せアイテム -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item right href="#">投影ウィンドウを○○</b-nav-item>
+          <b-nav-item right href="#" @click="onClickProjectionWinBtn()">
+            投影ウィンドウを{{this.$store.state.projectionScreenInstance != null ? '閉じる' : '開く'}}
+          </b-nav-item>
           <b-nav-item-dropdown right>
             <template slot="button-content"><em>設定</em></template>
             <b-dropdown-item href="#" @click="showScoreImportUrlDialog()">試合結果取得設定</b-dropdown-item>
@@ -47,6 +49,18 @@ export default {
     },
     showScoreImportUrlDialog () {
       this.$refs['scoreImportSettingsDialog'].show()
+    },
+    onClickProjectionWinBtn () {
+      if (this.$store.state.projectionScreenInstance == null) {
+        // 投影ウィンドウは開いていない
+        this.$store.commit('showProjectionScreen', {
+          screenPath: this.$router.resolve('test').href,
+          options: { width: 1280, height: 720 }
+        })
+      } else {
+        // 投影ウィンドウは開いている
+        this.$store.commit('closeProjectionScreen')
+      }
     }
   },
   computed: {
@@ -61,6 +75,11 @@ export default {
     },
     isNeedShowGoMainScreenBtn () {
       return this.$store.state.currentScreenName != 'main'
+    },
+    isNeedNavBar () {
+      // 投影画面でNavBarを出さないための対策
+      const name = this.$router.currentRoute.name
+      return (name != 'empty' && name != 'test')
     }
   }
 }
