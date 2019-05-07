@@ -15,6 +15,11 @@
             投影ウィンドウを{{this.$store.state.projectionScreenInstance != null ? '閉じる' : '開く'}}
           </b-nav-item>
           <b-nav-item-dropdown right>
+            <template slot="button-content"><em>投影ウィンドウ設定</em></template>
+            <b-dropdown-item href="#" @click="onClickEmptyScreen()">空画面を表示</b-dropdown-item>
+            <b-dropdown-item href="#" @click="onClickTestScreen()">テスト画面を表示</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown right>
             <template slot="button-content"><em>設定</em></template>
             <b-dropdown-item href="#" @click="showScoreImportUrlDialog()">試合結果取得設定</b-dropdown-item>
             <b-dropdown-item href="#">設定項目2</b-dropdown-item>
@@ -54,13 +59,19 @@ export default {
       if (this.$store.state.projectionScreenInstance == null) {
         // 投影ウィンドウは開いていない
         this.$store.commit('showProjectionScreen', {
-          screenPath: this.$router.resolve('test').href,
+          screenPath: this.$router.resolve('empty').href,
           options: { width: 1280, height: 720 }
         })
       } else {
         // 投影ウィンドウは開いている
         this.$store.commit('closeProjectionScreen')
       }
+    },
+    onClickEmptyScreen () {
+      this.$store.commit('updateProjectionScreen', this.$router.resolve('empty').href)
+    },
+    onClickTestScreen () {
+      this.$store.commit('updateProjectionScreen', this.$router.resolve('test').href)
     }
   },
   computed: {
