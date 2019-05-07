@@ -1,6 +1,10 @@
 <template>
   <div class="empty-screen">
     <b-container>
+    <!-- 上下左右中央に設置 -->
+    <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+      <img class="img w-100" src="../../assets/background.png"/>
+    </div>
     </b-container>
   </div>
 </template>
