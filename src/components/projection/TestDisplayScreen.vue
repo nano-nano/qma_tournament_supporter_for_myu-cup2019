@@ -2,8 +2,8 @@
   <div class="test-display-screen">
     <!-- 上下左右中央に設置 -->
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
-      <!-- 画像の幅は、全体の幅の75% -->
-      <img class="img w-75" src="../../assets/color_bar.png"/>
+      <!-- 画像サイズは最大の情報量になる1回戦の描画エリアサイズに合わせる -->
+      <img class="img" src="../../assets/color_bar.png" style="width: 1890px; height: 890px;"/>
     </div>
   </div>
 </template>

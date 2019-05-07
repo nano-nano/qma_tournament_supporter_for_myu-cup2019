@@ -60,7 +60,7 @@ export default {
         // 投影ウィンドウは開いていない
         this.$store.commit('showProjectionScreen', {
           screenPath: this.$router.resolve('empty').href,
-          options: { width: 1280, height: 720 }
+          options: { width: 1920, height: 1000 }
         })
       } else {
         // 投影ウィンドウは開いている
@@ -90,7 +90,9 @@ export default {
     isNeedNavBar () {
       // 投影画面でNavBarを出さないための対策
       const name = this.$router.currentRoute.name
-      return (name != 'empty' && name != 'test')
+      return (name != 'empty'
+              && name != 'test'
+              && name != 'round1projection')
     }
   }
 }

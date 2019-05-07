@@ -4,7 +4,7 @@
       <!-- 制御エリア -->
       <b-row align-h="between">
         <b-col cols="3">
-          <b-button variant="outline-primary" block disabled>投影画面に投影</b-button>
+          <b-button variant="outline-primary" block @click="projection()">投影画面に投影</b-button>
         </b-col>
         <b-col cols="4">
           <b-row>
@@ -128,6 +128,9 @@ export default {
     }
   },
   methods: {
+    projection () {
+      this.$store.commit('updateProjectionScreen', this.$router.resolve('round1projection').href)
+    },
     loadRoundPlayersData () {
       FileUtils.loadAllPlayersData().then((loadData) => {
         if (loadData == null) return

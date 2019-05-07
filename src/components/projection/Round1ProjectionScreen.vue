@@ -1,0 +1,121 @@
+<template>
+  <div class="round1-projection-screen">
+    <!-- ナビゲーションバー -->
+    <b-navbar type="light" fixed="top" style="background-color: #e7e2fd; padding-bottom: 11px; padding-top: 11px;">
+      <b-navbar-brand href="#">MYUCUP VIvid poetry</b-navbar-brand>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-text>Round1 [32 → 16]</b-nav-text>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
+    <b-container fluid>
+      <b-row v-for="(rowData, idx) of displayedData" :key="idx">
+        <b-col v-for="(setData, idx) of rowData" :key="idx">
+          <b class="setName">第{{setData[0].setNo}}試合</b>
+          <table class="table">
+            <thead>
+            </thead>
+              <tr v-for="(playerData, idx) of setData" :key="idx"
+                :class="{'table-dark': playerData.entryNo == 999, 'table-primary': playerData.isWin}">
+                <td style="text-align: center; vertical-align: middle;">
+                  {{playerData.entryNo}}
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                  {{playerData.isSubCard ? '★' : ''}}
+                  {{playerData.cardName}}
+                </td>
+              </tr>
+            <tbody>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
+</template>
+
+<script>
+import FileUtils from '../../logic/FileUtils.js'
+import PlayerUtils from '../../logic/PlayerUtils.js'
+
+const SETS_PAR_ROW = 4 // 1行あたりの試合数
+
+export default {
+  name: 'Round1ProjectionScreen',
+  data () {
+    return {
+      displayedData: []
+    }
+  },
+  methods: {
+    loadRoundPlayersData () {
+      FileUtils.loadAllPlayersData().then((loadData) => {
+        if (loadData == null) return
+
+        const nPlayers = loadData.length
+        let rowSets
+        for (let set = 1; set <= (Math.ceil(nPlayers / 4)); set++) {
+          if (((set - 1) % SETS_PAR_ROW) == 0) {
+            // 1行分の試合を入れる配列をリセット
+            rowSets = []
+          }
+
+          let setPlayers = []
+          for (let seat = 1; seat <= 4; seat++) {
+            let extracted = PlayerUtils.extractPlayerDataBySetSeatNo(loadData, 'R1', set, seat)
+            // プレイヤーデータが取得できなかった場合はダミープレイヤーで上書きする
+            if (extracted == null) extracted = PlayerUtils.createDummyPlayer('R1', set, seat)
+            const roundData = extracted.roundDatas['R1']
+            setPlayers.push({
+                entryNo: extracted.entryNo,
+                cardName: extracted.cardName,
+                isSubCard: extracted.isSubCard,
+                setNo: roundData.setNo,
+                seatNo: roundData.seatNo,
+                isWin: roundData.isWin,
+            })
+          }
+          rowSets.push(setPlayers)
+          if ((set % SETS_PAR_ROW) == 0) {
+            // 1行分が完成したのでdisplayedDataにセット
+            this.displayedData.push(rowSets)
+          }
+        }
+      })
+    },
+  },
+  mounted: function () {
+    this.loadRoundPlayersData()
+  }
+}
+</script>
+
+<style scoped>
+@font-face {
+  /* 大会タイトル用フォント */
+  font-family: "Cameliabold";
+  src: url("../../assets/CAMELIAB.TTF");
+}
+/* ナビゲーションバー */
+a.navbar-brand {
+  font-family: "Cameliabold";
+  font-size: 2.4rem;
+}
+div#nav-collapse {
+  font-size: 2.0rem;
+}
+
+/* メインコンテンツ */
+div.container-fluid {
+  margin-top: 125px;
+}
+b.setName {
+  font-size: 2.4rem;
+}
+th, td {
+  font-size: 2.2rem;
+}
+</style>

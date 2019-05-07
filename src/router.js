@@ -7,6 +7,7 @@ import Round1Screen from './components/Round1Screen.vue'
 
 import EmptyScreen from './components/projection/EmptyScreen.vue'
 import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
+import Round1ProjectionScreen from './components/projection/Round1ProjectionScreen.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,11 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: TestDisplayScreen
+    },
+    {
+      path: '/round1projection',
+      name: 'round1projection',
+      component: Round1ProjectionScreen
     },
     // {
     //   path: '/about',

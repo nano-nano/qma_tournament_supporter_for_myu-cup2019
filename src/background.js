@@ -18,7 +18,7 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({ 
     width: 1280,
-    height: 720,
+    height: 800,
     icon: path.join(__static, 'icon.png')
   })
 

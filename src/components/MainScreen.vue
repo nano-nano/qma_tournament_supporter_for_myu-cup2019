@@ -8,7 +8,13 @@
         <b-button size="lg" block variant="outline-primary" @click="goAnotherScreen('round1')">１回戦</b-button>
       </b-row>
       <b-row>
-        <b-button size="lg" block variant="outline-primary">２回戦</b-button>
+        <b-button size="lg" block variant="outline-primary" disabled>２回戦</b-button>
+      </b-row>
+      <b-row>
+        <b-button size="lg" block variant="outline-primary" disabled>準決勝戦</b-button>
+      </b-row>
+      <b-row>
+        <b-button size="lg" block variant="outline-primary" disabled>決勝戦</b-button>
       </b-row>
     </b-container>
   </div>
@@ -42,7 +48,7 @@ export default {
 <style scoped>
 div.container {
   width: 30%;
-  margin-top: 7.5%;
+  margin-top: 10%;
   margin-bottom: 7.5%;
 }
 div.row {

@@ -9,14 +9,16 @@ export default new Vuex.Store({
     currentScreenName: '',
     // 投影ウィンドウのインスタンス
     projectionScreenInstance: null,
-    // 投影ウィンドウで表示中の画面を指すpath
-    projectionScreenPath: '/'
   },
   mutations: {
     updateCurrentScreen (state, newScreen) {
       state.currentScreenName = newScreen
     },
     showProjectionScreen (state, payload) {
+      if (payload.screenPath == null) {
+        return
+      }
+
       const remote = require('electron').remote
       const BrowserWindow = remote.BrowserWindow
 
@@ -26,10 +28,8 @@ export default new Vuex.Store({
       }
       
       const win = new BrowserWindow(winOptions)
-      const newPath = (payload.screenPath == null ? state.projectionScreenPath : payload.screenPath)
-      win.loadURL(remote.getGlobal('baseUrl') + newPath)
+      win.loadURL(remote.getGlobal('baseUrl') + payload.screenPath)
       state.projectionScreenInstance = win
-      state.projectionScreenPath = newPath
       state.projectionScreenInstance.on('closed', () => {
         state.projectionScreenInstance = null
       })
@@ -50,7 +50,6 @@ export default new Vuex.Store({
       
       const remote = require('electron').remote
       state.projectionScreenInstance.loadURL(remote.getGlobal('baseUrl') + newPath)
-      state.projectionScreenPath = newPath
     }
   },
   actions: {
