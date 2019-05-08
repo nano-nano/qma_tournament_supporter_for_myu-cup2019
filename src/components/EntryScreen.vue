@@ -48,7 +48,7 @@
                       第
                     </b-col>
                     <b-col>
-                      <b-form-input type="number" v-model="playerData.roundDatas['R1'].setNo"></b-form-input>
+                      <b-form-input type="number" v-model.number="playerData.roundDatas['R1'].setNo"></b-form-input>
                     </b-col>
                     <b-col cols="3">
                       試合
@@ -58,7 +58,7 @@
                 <td style="text-align: center; vertical-align: middle;">
                   <b-row align-v="center">
                     <b-col>
-                      <b-form-input type="number" v-model="playerData.roundDatas['R1'].seatNo"></b-form-input>
+                      <b-form-input type="number" v-model.number="playerData.roundDatas['R1'].seatNo"></b-form-input>
                     </b-col>
                     <b-col cols="3">
                       番

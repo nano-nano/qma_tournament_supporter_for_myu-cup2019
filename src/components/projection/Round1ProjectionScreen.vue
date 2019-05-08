@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     loadRoundPlayersData () {
+      this.displayedData = []
       FileUtils.loadAllPlayersData().then((loadData) => {
         if (loadData == null) return
 
@@ -89,6 +90,12 @@ export default {
   },
   mounted: function () {
     this.loadRoundPlayersData()
+
+    const ipc = this.$electron.ipcRenderer
+    ipc.on('update', (event, arg) => {
+      // 制御画面からアップデートのchannelが届いた場合
+      this.loadRoundPlayersData()
+    })
   }
 }
 </script>

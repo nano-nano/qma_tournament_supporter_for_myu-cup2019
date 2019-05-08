@@ -50,6 +50,11 @@ export default new Vuex.Store({
       
       const remote = require('electron').remote
       state.projectionScreenInstance.loadURL(remote.getGlobal('baseUrl') + newPath)
+    },
+    sendMsgToProjectionScreen (state, payload) {
+      if (state.projectionScreenInstance != null && payload.channel != null) {
+        state.projectionScreenInstance.webContents.send(payload.channel, payload.args)
+      }
     }
   },
   actions: {

@@ -59,7 +59,7 @@
                   <b-form-select v-model="playerData.difficulty" :options="DIFFICULTY" style="font-size:75%"></b-form-select>
                 </td>
                 <td style="text-align: center; vertical-align: middle;">
-                  <b-form-input v-model="playerData.score" :state="validScore(playerData.score)"></b-form-input>
+                  <b-form-input v-model="playerData.score" :state="validScore(playerData.score)" :disabled="playerData.entryNo == 999"></b-form-input>
                 </td>
                 <td style="text-align: center; vertical-align: middle;">
                   {{playerData.rank}}
@@ -73,7 +73,7 @@
                 <td style="border-style: none;">
                   <b-button variant="outline-primary" v-if="idx % 4 == 0" block @click="importScore()" :disabled="isScoreImporting">再取込</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 1" block @click="calcScore(playerData.setNo)">再計算</b-button>
-                  <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo)">保存</b-button>
+                  <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo, true)">保存</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 3" block disabled>拡大表示</b-button>
                 </td>
               </tr>
@@ -85,7 +85,7 @@
 
       <b-row align-h="end">
         <b-col cols="3">
-          <b-button variant="outline-primary" block disabled>1回戦終了</b-button>
+          <b-button variant="outline-primary" block @click="drawingForNextRound()">1回戦終了</b-button>
         </b-col>
       </b-row>
 
@@ -93,6 +93,7 @@
 
     <!-- ダイアログ -->
     <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
+    <notification-dialog ref="finishNotificationDialog" message="２回戦の抽選を実施し、保存しました！"></notification-dialog>
   </div>
 </template>
 
@@ -100,12 +101,12 @@
 import { setInterval, clearInterval } from 'timers'
 
 import Constants from '../Constants.js'
+import CommonUtils from '../logic/CommonUtils.js'
 import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 import ScoreUtils from '../logic/ScoreUtils.js'
 import ScrapingUtils from '../logic/ScrapingUtils.js'
 
-// import ConfirmDialog from './Common/ConfirmDialog'
 import NotificationDialog from './common/NotificationDialog'
 // import ErrorDialog from './Common/ErrorDialog'
 
@@ -166,24 +167,28 @@ export default {
         return e.setNo == setNo
       })
       ScoreUtils.calcScoreAndDefRate(targetPlayersData, 2)
+      this.saveScore(targetSetNo, false)
+      this.updateProjectionScreen()
     },
     formatDefRate (defRate) {
       return ScoreUtils.roundForShow(defRate * 100, 3)
     },
-    saveScore (setNo) {
+    saveScore (setNo, isNeedDialog) {
       let targetPlayersData = this.extractedPlayersData.filter((e) => {
         return e.setNo == setNo
       })
       ScoreUtils.updateScore(targetPlayersData, 'R1').then((updatedData) => {
         return FileUtils.saveAllPlayersData(updatedData)
       }).then(() => {
-        this.$refs['saveNotificationDialog'].show()
+        if (isNeedDialog) this.$refs['saveNotificationDialog'].show()
+        this.updateProjectionScreen()
       })
     },
     importScore () {
       this.isScoreImporting = true
       ScrapingUtils.importLatestScore().then((importedDataArray) => {
         // 結果をUIに反映
+        let targetSetNo = 0
         for (let importedData of importedDataArray) {
             for (let parentData of this.extractedPlayersData) {
                 if (parentData.cardName == importedData.cardName) {
@@ -192,11 +197,19 @@ export default {
                     parentData.style = importedData.style
                     parentData.difficulty = importedData.difficulty
                     parentData.score = importedData.score
+                    targetSetNo = parentData.roundDatas['R1'].setNo
                     break
                 }
             }
         }
         this.isScoreImporting = false
+
+        if (targetSetNo == 0) {
+          // 結果をUIに反映できていない
+          return
+        }
+        // 取り込んだ結果を再計算
+        this.calcScore(targetSetNo)
 
         // 処理結果をtoastで表示
         this.$bvToast.toast('最新の成績を取り込みました', {
@@ -214,6 +227,52 @@ export default {
           autoHideDelay: 5000,
         })
       })
+    },
+    drawingForNextRound () {
+      ScoreUtils.updateScore(this.extractedPlayersData, 'R1').then((updatedData) => {
+        // 現時点での成績を保存する
+        return FileUtils.saveAllPlayersData(updatedData)
+      }).then(() => {
+        // 再度読み込む
+        return FileUtils.loadAllPlayersData()
+      }).then((loadData) => {
+        // 勝ち抜けたプレイヤーのEntryNoを抽出する
+        let targetPlayersEntryNo = loadData.filter((e) => {
+          return e.roundDatas['R1'].isWin == true
+        }).map((e) => {
+          return e.entryNo
+        })
+        // シャッフルする
+        CommonUtils.shuffleArray(targetPlayersEntryNo)
+
+        let setNo = 1
+        let seatNo = 1
+        for (let entryNo of targetPlayersEntryNo) {
+          // R2のデータを生成
+          const r2 = PlayerUtils.createEmptyRoundData()
+          r2.setNo = setNo
+          r2.seatNo = seatNo
+          // 親の配列に設定
+          loadData.find((e) => { return e.entryNo == entryNo }).roundDatas['R2'] = r2
+
+          // 座席No.をインクリメント
+          seatNo++
+          if (seatNo == 5) {
+            // 試合No.をインクリメントして、座席No.をリセット
+            setNo++
+            seatNo = 1
+          }
+        }
+
+        return loadData
+      }).then((updatedData) => {
+        return FileUtils.saveAllPlayersData(updatedData)
+      }).then(() => {
+        this.$refs['finishNotificationDialog'].show()
+      })
+    },
+    updateProjectionScreen () {
+      this.$store.commit('sendMsgToProjectionScreen', {channel: 'update', args: null})
     },
     validScore (score) {
       return (0 <= score && score <= 400) ? null : false
