@@ -92,6 +92,7 @@ export default {
     this.loadRoundPlayersData()
 
     const ipc = this.$electron.ipcRenderer
+    // eslint-disable-next-line
     ipc.on('update', (event, arg) => {
       // 制御画面からアップデートのchannelが届いた場合
       this.loadRoundPlayersData()

@@ -167,7 +167,7 @@ export default {
         return e.setNo == setNo
       })
       ScoreUtils.calcScoreAndDefRate(targetPlayersData, 2)
-      this.saveScore(targetSetNo, false)
+      this.saveScore(setNo, false)
       this.updateProjectionScreen()
     },
     formatDefRate (defRate) {
