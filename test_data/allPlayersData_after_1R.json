@@ -10,9 +10,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 300.19,
+                "rank": 3,
+                "defRate": 0.7866614255765199,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -26,6 +26,18 @@
             "R1": {
                 "setNo": 1,
                 "seatNo": 2,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 381.6,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 4,
+                "seatNo": 1,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -48,6 +60,18 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
+                "score": 307.06,
+                "rank": 2,
+                "defRate": 0.8046645702306079,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 1,
+                "seatNo": 4,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
                 "score": 0,
                 "rank": 0,
                 "defRate": 0,
@@ -67,9 +91,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 209.88,
+                "rank": 4,
+                "defRate": 0.5499999999999999,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -86,9 +110,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 60.59,
+                "rank": 3,
+                "defRate": 0.3648681199566422,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -105,9 +129,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 30.08,
+                "rank": 4,
+                "defRate": 0.18113934722389496,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -121,6 +145,18 @@
             "R1": {
                 "setNo": 2,
                 "seatNo": 3,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 166.06,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 1,
+                "seatNo": 1,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -143,6 +179,18 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
+                "score": 82.25,
+                "rank": 2,
+                "defRate": 0.4953029025653378,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 2,
+                "seatNo": 2,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
                 "score": 0,
                 "rank": 0,
                 "defRate": 0,
@@ -159,6 +207,18 @@
             "R1": {
                 "setNo": 3,
                 "seatNo": 1,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 385.83,
+                "rank": 2,
+                "defRate": 0.9933063872512421,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 3,
+                "seatNo": 2,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -181,9 +241,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 94.82,
+                "rank": 4,
+                "defRate": 0.244110908014314,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -197,6 +257,18 @@
             "R1": {
                 "setNo": 3,
                 "seatNo": 3,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 388.43,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 2,
+                "seatNo": 4,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -219,9 +291,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 296.75,
+                "rank": 3,
+                "defRate": 0.7639729166130319,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -235,6 +307,18 @@
             "R1": {
                 "setNo": 4,
                 "seatNo": 1,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 45.82,
+                "rank": 2,
+                "defRate": 0.18554363231423365,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 3,
+                "seatNo": 3,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -257,6 +341,18 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
+                "score": 246.95,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 3,
+                "seatNo": 1,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
                 "score": 0,
                 "rank": 0,
                 "defRate": 0,
@@ -276,9 +372,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 37.71,
+                "rank": 3,
+                "defRate": 0.15270297631099414,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -295,9 +391,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 145.72,
+                "rank": 3,
+                "defRate": 0.39792463134898964,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -311,6 +407,18 @@
             "R1": {
                 "setNo": 5,
                 "seatNo": 3,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 220.51,
+                "rank": 2,
+                "defRate": 0.6021572910977607,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 2,
+                "seatNo": 1,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -329,6 +437,18 @@
         "roundDatas": {
             "R1": {
                 "setNo": 5,
+                "seatNo": 4,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 366.2,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 3,
                 "seatNo": 4,
                 "genre": "",
                 "style": "",
@@ -352,6 +472,18 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
+                "score": 202.54,
+                "rank": 2,
+                "defRate": 0.6894039960516014,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 4,
+                "seatNo": 4,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
                 "score": 0,
                 "rank": 0,
                 "defRate": 0,
@@ -367,6 +499,18 @@
         "roundDatas": {
             "R1": {
                 "setNo": 6,
+                "seatNo": 2,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 293.79,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 4,
                 "seatNo": 2,
                 "genre": "",
                 "style": "",
@@ -390,9 +534,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 187.73,
+                "rank": 3,
+                "defRate": 0.6389938391367983,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -409,9 +553,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 41.36,
+                "rank": 4,
+                "defRate": 0.1407808298444467,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -425,6 +569,18 @@
             "R1": {
                 "setNo": 7,
                 "seatNo": 1,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 354.96,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 1,
+                "seatNo": 2,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -447,9 +603,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 135.65,
+                "rank": 3,
+                "defRate": 0.38215573585756146,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -466,9 +622,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 15.5,
+                "rank": 4,
+                "defRate": 0.043666892044174,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -482,6 +638,18 @@
             "R1": {
                 "setNo": 7,
                 "seatNo": 4,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 284.53,
+                "rank": 2,
+                "defRate": 0.8015832769889565,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 1,
+                "seatNo": 3,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
@@ -504,9 +672,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 147.63,
+                "rank": 4,
+                "defRate": 0.6345856258596974,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -523,9 +691,9 @@
                 "genre": "",
                 "style": "",
                 "difficulty": "",
-                "score": 0,
-                "rank": 0,
-                "defRate": 0,
+                "score": 160.74,
+                "rank": 3,
+                "defRate": 0.6909387895460799,
                 "isWin": false,
                 "isDefWin": false
             }
@@ -538,6 +706,18 @@
         "roundDatas": {
             "R1": {
                 "setNo": 8,
+                "seatNo": 3,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 232.64,
+                "rank": 1,
+                "defRate": 1,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 2,
                 "seatNo": 3,
                 "genre": "",
                 "style": "",
@@ -558,6 +738,18 @@
             "R1": {
                 "setNo": 8,
                 "seatNo": 4,
+                "genre": "",
+                "style": "",
+                "difficulty": "",
+                "score": 231.55,
+                "rank": 2,
+                "defRate": 0.9953146492434664,
+                "isWin": true,
+                "isDefWin": false
+            },
+            "R2": {
+                "setNo": 4,
+                "seatNo": 3,
                 "genre": "",
                 "style": "",
                 "difficulty": "",
