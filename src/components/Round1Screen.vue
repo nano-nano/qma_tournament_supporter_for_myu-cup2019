@@ -39,36 +39,36 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(playerData, idx) of extractedPlayersData" :key="idx" :class="playerData.setNo % 2 == 0 ? 'table-info' : ''">
-                <td style="text-align: center; vertical-align: middle;">
+              <tr v-for="(playerData, idx) of extractedPlayersData" :key="idx">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{playerData.setNo}} - {{playerData.seatNo}}
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{playerData.entryNo}}
                 </td>
-                <td style="text-align: center; vertical-align: middle; font-size:90%">
+                <td style="text-align: center; vertical-align: middle; font-size:90%" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{playerData.cardName}}
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-select v-model="playerData.genre" :options="GENRE" style="font-size:75%"></b-form-select>
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-select v-model="playerData.style" :options="STYLE.filter((e) => {return e.genre == playerData.genre}).map((e2) => e2.style)" style="font-size:75%"></b-form-select>
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-select v-model="playerData.difficulty" :options="DIFFICULTY" style="font-size:75%"></b-form-select>
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-input v-model="playerData.score" :state="validScore(playerData.score)" :disabled="playerData.entryNo == 999"></b-form-input>
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{playerData.rank}}
                 </td>
-                <td style="text-align: right; vertical-align: middle;">
+                <td style="text-align: right; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{formatDefRate(playerData.defRate)}} %
                 </td>
-                <td style="text-align: center; vertical-align: middle;">
-                  <b-form-checkbox v-model="playerData.isWin"></b-form-checkbox>
+                <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
+                  <b-form-checkbox v-model="playerData.isWin" :disabled="playerData.entryNo == 999"></b-form-checkbox>
                 </td>
                 <td :class="idx % 4 == 3 ? 'wo-top-border' : 'wo-top-bottom-border'">
                   <b-button variant="outline-primary" v-if="idx % 4 == 0" block @click="importScore()" :disabled="isScoreImporting">再取込</b-button>
@@ -273,6 +273,17 @@ export default {
     },
     validScore (score) {
       return (0 <= score && score <= 400) ? null : false
+    },
+    computeTableClass (isDummy, isEvenSet) {
+      if (isDummy) {
+        return 'table-secondary'
+      } else {
+        if (isEvenSet) {
+          return 'table-info'
+        } else {
+          return ''
+        }
+      }
     }
   },
   mounted: function () {
