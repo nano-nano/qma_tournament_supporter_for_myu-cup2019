@@ -108,14 +108,11 @@ import ScoreUtils from '../logic/ScoreUtils.js'
 import ScrapingUtils from '../logic/ScrapingUtils.js'
 
 import NotificationDialog from './common/NotificationDialog'
-// import ErrorDialog from './Common/ErrorDialog'
 
 export default {
   name: 'Round1Screen',
   components: {
-    // ConfirmDialog,
     NotificationDialog,
-    // ErrorDialog
   },
   data () {
     return {

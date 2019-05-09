@@ -2,6 +2,9 @@
 
 export default class Constants {
 
+    /**
+     * 設定ファイルのファイル名
+     */
     static get SETTING_FILE_NAME () {
         return "settings"
     }
