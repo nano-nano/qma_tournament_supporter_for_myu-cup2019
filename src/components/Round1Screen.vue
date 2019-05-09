@@ -70,7 +70,7 @@
                 <td style="text-align: center; vertical-align: middle;">
                   <b-form-checkbox v-model="playerData.isWin"></b-form-checkbox>
                 </td>
-                <td style="border-style: none;">
+                <td :class="idx % 4 == 3 ? 'wo-top-border' : 'wo-top-bottom-border'">
                   <b-button variant="outline-primary" v-if="idx % 4 == 0" block @click="importScore()" :disabled="isScoreImporting">再取込</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 1" block @click="calcScore(playerData.setNo)">再計算</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo, true)">保存</b-button>
@@ -310,5 +310,14 @@ export default {
 div.container-fluid {
   margin-top: 100px;
   margin-bottom: 25px;
+}
+
+/* テーブルの枠線 */
+td.wo-top-bottom-border {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+td.wo-top-border {
+  border-top-style: none;
 }
 </style>
