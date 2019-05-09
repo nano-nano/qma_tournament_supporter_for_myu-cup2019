@@ -20,8 +20,9 @@
             <b-dropdown-item href="#" @click="onClickTestScreen()">テスト画面を表示</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown right>
-            <template slot="button-content"><em>設定</em></template>
+            <template slot="button-content"><em>その他設定</em></template>
             <b-dropdown-item href="#" @click="showScoreImportUrlDialog()">試合結果取得設定</b-dropdown-item>
+            <b-dropdown-item href="#" @click="openTwitterAuth()">Twitter認証設定</b-dropdown-item>
             <b-dropdown-item href="#">設定項目2</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item right href="#" v-if="isNeedShowGoMainScreenBtn" @click="goMainScreen()">メイン画面へ</b-nav-item>
@@ -33,16 +34,21 @@
 
     <!-- ダイアログ -->
     <score-import-settings-dialog ref="scoreImportSettingsDialog"></score-import-settings-dialog>
+    <notification-dialog ref="twiAuthNotificationDialog" message="Twitter認証に成功しました！"></notification-dialog>
   </div>
 </template>
 
 <script>
+import TwitterUtils from './logic/TwitterUtils.js'
+
 import ScoreImportSettingsDialog from './components/settings/ScoreImportSettingsDialog'
+import NotificationDialog from './components/common/NotificationDialog'
 
 export default {
   name: 'App',
   components: {
     ScoreImportSettingsDialog,
+    NotificationDialog,
   },
   data () {
     return {
@@ -72,6 +78,11 @@ export default {
     },
     onClickTestScreen () {
       this.$store.commit('updateProjectionScreen', this.$router.resolve('test').href)
+    },
+    openTwitterAuth () {
+      TwitterUtils.startAuthRequest().then(() => {
+        this.$refs['twiAuthNotificationDialog'].show()
+      }).catch((err) => console.debug(err))
     }
   },
   computed: {

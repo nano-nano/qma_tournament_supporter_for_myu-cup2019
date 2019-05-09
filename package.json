@@ -20,6 +20,7 @@
     "bootstrap-vue": "^2.0.0-rc.19",
     "cheerio-httpcli": "^0.7.4",
     "core-js": "^2.6.5",
+    "electron-oauth-twitter": "^1.2.0",
     "fs-extra": "^7.0.1",
     "moji": "^0.5.1",
     "vue": "^2.6.10",

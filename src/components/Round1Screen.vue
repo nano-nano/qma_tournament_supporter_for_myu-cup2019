@@ -12,7 +12,7 @@
               <b-button variant="outline-primary" :pressed.sync="isAutoImportRunning" block>成績自動追尾</b-button>
             </b-col>
             <b-col cols="6">
-              <b-button variant="outline-primary" block disabled>Twitter速報</b-button>
+              <b-button variant="outline-primary" block @click="openTwitterFlashDialog()">Twitter速報</b-button>
             </b-col>
           </b-row>
         </b-col>
@@ -94,6 +94,7 @@
     <!-- ダイアログ -->
     <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
     <notification-dialog ref="finishNotificationDialog" message="２回戦の抽選を実施し、保存しました！"></notification-dialog>
+    <twitter-select-dialog ref="twitterSelectDialog" roundName="R1"></twitter-select-dialog>
   </div>
 </template>
 
@@ -106,13 +107,16 @@ import FileUtils from '../logic/FileUtils.js'
 import PlayerUtils from '../logic/PlayerUtils.js'
 import ScoreUtils from '../logic/ScoreUtils.js'
 import ScrapingUtils from '../logic/ScrapingUtils.js'
+import TwitterUtils from '../logic/TwitterUtils.js'
 
 import NotificationDialog from './common/NotificationDialog'
+import TwitterSelectDialog from './common/TwitterSelectDialog'
 
 export default {
   name: 'Round1Screen',
   components: {
     NotificationDialog,
+    TwitterSelectDialog
   },
   data () {
     return {
@@ -128,6 +132,10 @@ export default {
   methods: {
     projection () {
       this.$store.commit('updateProjectionScreen', this.$router.resolve('round1projection').href)
+    },
+    openTwitterFlashDialog () {
+      this.$refs['twitterSelectDialog'].show()
+      // console.debug(TwitterUtils.getTweetSelection('R1'))
     },
     loadRoundPlayersData () {
       FileUtils.loadAllPlayersData().then((loadData) => {
@@ -159,28 +167,6 @@ export default {
         }
       })
     },
-    calcScore (setNo) {
-      let targetPlayersData = this.extractedPlayersData.filter((e) => {
-        return e.setNo == setNo
-      })
-      ScoreUtils.calcScoreAndDefRate(targetPlayersData, 2)
-      this.saveScore(setNo, false)
-      this.updateProjectionScreen()
-    },
-    formatDefRate (defRate) {
-      return ScoreUtils.roundForShow(defRate * 100, 3)
-    },
-    saveScore (setNo, isNeedDialog) {
-      let targetPlayersData = this.extractedPlayersData.filter((e) => {
-        return e.setNo == setNo
-      })
-      ScoreUtils.updateScore(targetPlayersData, 'R1').then((updatedData) => {
-        return FileUtils.saveAllPlayersData(updatedData)
-      }).then(() => {
-        if (isNeedDialog) this.$refs['saveNotificationDialog'].show()
-        this.updateProjectionScreen()
-      })
-    },
     importScore () {
       this.isScoreImporting = true
       ScrapingUtils.importLatestScore().then((importedDataArray) => {
@@ -201,10 +187,8 @@ export default {
         }
         this.isScoreImporting = false
 
-        if (targetSetNo == 0) {
-          // 結果をUIに反映できていない
-          return
-        }
+        // 結果をUIに反映できていない場合は処理中止
+        if (targetSetNo == 0) return
         // 取り込んだ結果を再計算
         this.calcScore(targetSetNo)
 
@@ -225,6 +209,25 @@ export default {
         })
       })
     },
+    calcScore (setNo) {
+      let targetPlayersData = this.extractedPlayersData.filter((e) => {
+        return e.setNo == setNo
+      })
+      ScoreUtils.calcScoreAndDefRate(targetPlayersData, 2)
+      this.saveScore(setNo, false)
+      this.updateProjectionScreen()
+    },
+    saveScore (setNo, isNeedDialog) {
+      let targetPlayersData = this.extractedPlayersData.filter((e) => {
+        return e.setNo == setNo
+      })
+      ScoreUtils.updateScore(targetPlayersData, 'R1').then((updatedData) => {
+        return FileUtils.saveAllPlayersData(updatedData)
+      }).then(() => {
+        if (isNeedDialog) this.$refs['saveNotificationDialog'].show()
+        this.updateProjectionScreen()
+      })
+    },
     drawingForNextRound () {
       ScoreUtils.updateScore(this.extractedPlayersData, 'R1').then((updatedData) => {
         // 現時点での成績を保存する
@@ -234,11 +237,8 @@ export default {
         return FileUtils.loadAllPlayersData()
       }).then((loadData) => {
         // 勝ち抜けたプレイヤーのEntryNoを抽出する
-        let targetPlayersEntryNo = loadData.filter((e) => {
-          return e.roundDatas['R1'].isWin == true
-        }).map((e) => {
-          return e.entryNo
-        })
+        let targetPlayersEntryNo = loadData.filter((e) => { return e.roundDatas['R1'].isWin == true })
+          .map((e) => { return e.entryNo })
         // シャッフルする
         CommonUtils.shuffleArray(targetPlayersEntryNo)
 
@@ -270,6 +270,9 @@ export default {
     },
     updateProjectionScreen () {
       this.$store.commit('sendMsgToProjectionScreen', {channel: 'update', args: null})
+    },
+    formatDefRate (defRate) {
+      return ScoreUtils.roundForShow(defRate * 100, 3)
     },
     validScore (score) {
       return (0 <= score && score <= 400) ? null : false

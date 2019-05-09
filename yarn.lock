@@ -3580,6 +3580,13 @@ electron-icon-builder@^1.0.0:
     icon-gen "1.0.7"
     jimp "^0.2.27"
 
+electron-oauth-twitter@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/electron-oauth-twitter/-/electron-oauth-twitter-1.2.0.tgz#93a83a12bdb14c8d687e18e2ec042e6c237844ad"
+  integrity sha512-nJEoL9r/7uckJVvuCX5WLhEJxLOnyP+pSjRPRL1Qbxd9jndtCMrD/wOym0n9n8RTSapekVgdtrUX5SUHUtGHWA==
+  dependencies:
+    oauth "^0.9.14"
+
 electron-osx-sign@0.4.11:
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.11.tgz#8377732fe7b207969f264b67582ee47029ce092f"
@@ -6691,6 +6698,11 @@ oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
+
+oauth@^0.9.14:
+  version "0.9.15"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
+  integrity sha1-vR/vr2hslrdUda7VGWQS/2DPucE=
 
 object-assign@^3.0.0:
   version "3.0.0"
