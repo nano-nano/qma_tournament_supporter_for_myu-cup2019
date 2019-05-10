@@ -9,6 +9,8 @@ import EmptyScreen from './components/projection/EmptyScreen.vue'
 import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
 import Round1ProjectionScreen from './components/projection/Round1ProjectionScreen.vue'
 
+import Round1CaptureScreen from './components/capture/Round1CaptureScreen.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -28,7 +30,7 @@ export default new Router({
       name: 'round1',
       component: Round1Screen
     },
-    //
+    // 投影ウィンドウ
     {
       path: '/empty',
       name: 'empty',
@@ -40,17 +42,15 @@ export default new Router({
       component: TestDisplayScreen
     },
     {
-      path: '/round1projection',
-      name: 'round1projection',
+      path: '/round1Projection',
+      name: 'round1Projection',
       component: Round1ProjectionScreen
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
+    // ツイートキャプチャ用ウィンドウ
+    {
+      path: '/round1Capture',
+      name: 'round1Capture',
+      component: Round1CaptureScreen
+    },
   ]
 })

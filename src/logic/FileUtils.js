@@ -10,6 +10,14 @@ export default class FileUtils {
 
     static ALL_PLAYERS_DATA_JSON_NAME = "allPlayersData"
 
+    static saveFileSync (filePath, data) {
+        return FsExtra.outputFileSync(filePath, data)
+    }
+
+    static loadFileSyncBase64 (filePath) {
+        return FsExtra.readFileSync(filePath, 'base64')
+    }
+
     static saveJsonFile (fileName, data) {
         const filePath = process.cwd() + '/json/' + fileName + '.json'
         return FsExtra.outputJson(filePath, data)

@@ -23,6 +23,7 @@
     "electron-oauth-twitter": "^1.2.0",
     "fs-extra": "^7.0.1",
     "moji": "^0.5.1",
+    "twit": "^2.2.11",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
     "vue-loading-overlay": "^3.2.0",

@@ -94,7 +94,10 @@
     <!-- ダイアログ -->
     <notification-dialog ref="saveNotificationDialog" message="保存しました！"></notification-dialog>
     <notification-dialog ref="finishNotificationDialog" message="２回戦の抽選を実施し、保存しました！"></notification-dialog>
-    <twitter-select-dialog ref="twitterSelectDialog" roundName="R1"></twitter-select-dialog>
+    <twitter-select-dialog ref="twitterSelectDialog" roundName="R1"
+      v-on:onSuccessTweet="onTweetSucceeded()" v-on:onFailTweet="onTweetFailed()"></twitter-select-dialog>
+    <notification-dialog ref="successTweetNotificationDialog" message="速報ツイートに成功しました！"></notification-dialog>
+    <error-dialog ref="tweetErrorDialog" message="速報ツイートに失敗しました"></error-dialog>
   </div>
 </template>
 
@@ -110,12 +113,14 @@ import ScrapingUtils from '../logic/ScrapingUtils.js'
 import TwitterUtils from '../logic/TwitterUtils.js'
 
 import NotificationDialog from './common/NotificationDialog'
+import ErrorDialog from './common/ErrorDialog'
 import TwitterSelectDialog from './common/TwitterSelectDialog'
 
 export default {
   name: 'Round1Screen',
   components: {
     NotificationDialog,
+    ErrorDialog,
     TwitterSelectDialog
   },
   data () {
@@ -135,7 +140,6 @@ export default {
     },
     openTwitterFlashDialog () {
       this.$refs['twitterSelectDialog'].show()
-      // console.debug(TwitterUtils.getTweetSelection('R1'))
     },
     loadRoundPlayersData () {
       FileUtils.loadAllPlayersData().then((loadData) => {
@@ -270,6 +274,12 @@ export default {
     },
     updateProjectionScreen () {
       this.$store.commit('sendMsgToProjectionScreen', {channel: 'update', args: null})
+    },
+    onTweetSucceeded () {
+      this.$refs['successTweetNotificationDialog'].show()
+    },
+    onTweetFailed () {
+      this.$refs['tweetErrorDialog'].show()
     },
     formatDefRate (defRate) {
       return ScoreUtils.roundForShow(defRate * 100, 3)

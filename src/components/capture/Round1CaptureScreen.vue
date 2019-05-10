@@ -1,21 +1,31 @@
 <template>
   <div class="round1-screen">
+    <b-navbar type="dark" variant="secondary" fixed="top">
+      <b-navbar-brand href="#">MYUCUP VIvid poetry</b-navbar-brand>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-text>１回戦　[32 → 16]</b-nav-text>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
     <b-container fluid>
       <!-- 組み合わせデータテーブル -->
-      <b-row style="height: 62.5vh; overflow:auto;">
+      <b-row>
         <b-col>
-          <table class="table table-condensed table-hover table-bordered">
+          <table class="table table-condensed table-hover table-bordered table-sm">
             <thead>
               <tr>
-                <th width="7.25%">試合ID</th>
-                <th width="5%">Entry</th>
-                <th width="12.5%">カードネーム</th>
-                <th width="12.5%">ジャンル</th>
-                <th width="15.25%">形式</th>
-                <th width="10%">難易度</th>
-                <th width="8.75%">得点</th>
-                <th width="5%">順位</th>
-                <th width="5%">勝抜</th>
+                <th>試合ID</th>
+                <th>Entry</th>
+                <th>カードネーム</th>
+                <th>ジャンル</th>
+                <th>形式</th>
+                <th>難易度</th>
+                <th>得点</th>
+                <th>順位</th>
+                <th>勝抜</th>
               </tr>
             </thead>
             <tbody>
@@ -59,10 +69,8 @@
 <script>
 import { setInterval, clearInterval } from 'timers'
 
-import Constants from '../Constants.js'
-import CommonUtils from '../logic/CommonUtils.js'
-import FileUtils from '../logic/FileUtils.js'
-import PlayerUtils from '../logic/PlayerUtils.js'
+import FileUtils from '../../logic/FileUtils.js'
+import PlayerUtils from '../../logic/PlayerUtils.js'
 
 export default {
   name: 'Round1Screen',
@@ -71,10 +79,6 @@ export default {
   data () {
     return {
       extractedPlayersData: [],
-      fetchTimer: null,
-      GENRE: Constants.GENRE,
-      STYLE: Constants.STYLE,
-      DIFFICULTY: Constants.DIFFICULTY
     }
   },
   methods: {
@@ -108,6 +112,17 @@ export default {
         }
       })
     },
+    computeTableClass (isDummy, isEvenSet) {
+      if (isDummy) {
+        return 'table-secondary'
+      } else {
+        if (isEvenSet) {
+          return 'table-info'
+        } else {
+          return ''
+        }
+      }
+    },
   },
   mounted: function () {
     this.loadRoundPlayersData()
@@ -116,8 +131,22 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  /* 大会タイトル用フォント */
+  font-family: "Cameliabold";
+  src: url("../../assets/CAMELIAB.TTF");
+}
+/* ナビゲーションバー */
+a.navbar-brand {
+  font-family: "Cameliabold";
+  font-size: 1.8rem;
+}
+div#nav-collapse {
+  font-size: 1.4rem;
+}
+
 div.container-fluid {
-  margin-top: 100px;
+  margin-top: 105px;
   margin-bottom: 25px;
 }
 </style>

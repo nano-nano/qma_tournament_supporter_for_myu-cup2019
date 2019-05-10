@@ -66,7 +66,7 @@ export default {
         // 投影ウィンドウは開いていない
         this.$store.commit('showProjectionScreen', {
           screenPath: this.$router.resolve('empty').href,
-          options: { width: 1920, height: 1000 }
+          options: { width: 1920, height: 1000, autoHideMenuBar: true }
         })
       } else {
         // 投影ウィンドウは開いている
@@ -103,7 +103,8 @@ export default {
       const name = this.$router.currentRoute.name
       return (name != 'empty'
               && name != 'test'
-              && name != 'round1projection')
+              && name != 'round1projection'
+              && name != 'round1Capture')
     }
   }
 }

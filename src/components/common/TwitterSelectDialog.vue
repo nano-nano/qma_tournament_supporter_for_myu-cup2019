@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       options: [],
-      selected: ''
+      selected: '',
     }
   },
   methods: {
@@ -23,7 +23,13 @@ export default {
       this.$refs.modal.show()
     },
     onOkClicked () {
-      // this.$emit('onOkClicked')
+      TwitterUtils.postTweet(this.selected)
+        .then(() => this.$emit('onSuccessTweet'))
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.err(err)
+          this.$emit('onFailTweet')
+        })
     }
   },
   mounted: function () {
