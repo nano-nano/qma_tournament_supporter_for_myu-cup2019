@@ -34,6 +34,9 @@
         </b-col>
       </b-row>
     </b-container>
+
+    <!-- ダイアログ -->
+    <set-close-up-dialog ref="setCloseUpDialog" roundName="R1"></set-close-up-dialog>
   </div>
 </template>
 
@@ -41,10 +44,15 @@
 import FileUtils from '../../logic/FileUtils.js'
 import PlayerUtils from '../../logic/PlayerUtils.js'
 
+import SetCloseUpDialog from '../common/SetCloseUpDialog'
+
 const SETS_PAR_ROW = 4 // 1行あたりの試合数
 
 export default {
   name: 'Round1ProjectionScreen',
+  components: {
+    SetCloseUpDialog
+  },
   data () {
     return {
       displayedData: []
@@ -87,6 +95,9 @@ export default {
         }
       })
     },
+    showCloseUpDialog (setNo) {
+      this.$refs['setCloseUpDialog'].toggleDialog(setNo)
+    },
   },
   mounted: function () {
     this.loadRoundPlayersData()
@@ -96,6 +107,10 @@ export default {
     ipc.on('update', (event, arg) => {
       // 制御画面からアップデートのchannelが届いた場合
       this.loadRoundPlayersData()
+    })
+    ipc.on('close-up', (event, arg) => {
+      // 制御画面から拡大表示のchannelが届いた場合
+      this.showCloseUpDialog(arg.setNo)
     })
   }
 }

@@ -74,7 +74,7 @@
                   <b-button variant="outline-primary" v-if="idx % 4 == 0" block @click="importScore()" :disabled="isScoreImporting">再取込</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 1" block @click="calcScore(playerData.setNo)">再計算</b-button>
                   <b-button variant="outline-primary" v-if="idx % 4 == 2" block @click="saveScore(playerData.setNo, true)">保存</b-button>
-                  <b-button variant="outline-primary" v-if="idx % 4 == 3" block disabled>拡大表示</b-button>
+                  <b-button variant="outline-primary" v-if="idx % 4 == 3" block :pressed.sync="isCloseUpShown" @click="showCloseUpDialog(playerData.setNo)">拡大表示</b-button>
                 </td>
               </tr>
             </tbody>
@@ -121,13 +121,14 @@ export default {
   components: {
     NotificationDialog,
     ErrorDialog,
-    TwitterSelectDialog
+    TwitterSelectDialog,
   },
   data () {
     return {
       extractedPlayersData: [],
       isAutoImportRunning: false,
       isScoreImporting: false,
+      isCloseUpShown: false,
       fetchTimer: null,
       GENRE: Constants.GENRE,
       STYLE: Constants.STYLE,
@@ -231,6 +232,9 @@ export default {
         if (isNeedDialog) this.$refs['saveNotificationDialog'].show()
         this.updateProjectionScreen()
       })
+    },
+    showCloseUpDialog (setNo) {
+      this.$store.commit('sendMsgToProjectionScreen', {channel: 'close-up', args: {setNo: setNo}})
     },
     drawingForNextRound () {
       ScoreUtils.updateScore(this.extractedPlayersData, 'R1').then((updatedData) => {
