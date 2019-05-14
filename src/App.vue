@@ -92,6 +92,8 @@ export default {
         return 'エントリー'
       } else if (name == 'round1') {
         return '１回戦'
+      } else if (name == 'round2') {
+        return '２回戦'
       }
       return ''
     },
@@ -104,6 +106,7 @@ export default {
       return (name != 'empty'
               && name != 'test'
               && name != 'round1projection'
+              && name != 'round2projection'
               && name != 'round1Capture')
     }
   }

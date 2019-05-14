@@ -4,10 +4,12 @@ import Router from 'vue-router'
 import MainScreen from './components/MainScreen.vue'
 import EntryScreen from './components/EntryScreen.vue'
 import Round1Screen from './components/Round1Screen.vue'
+import Round2Screen from './components/Round2Screen.vue'
 
 import EmptyScreen from './components/projection/EmptyScreen.vue'
 import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
 import Round1ProjectionScreen from './components/projection/Round1ProjectionScreen.vue'
+import Round2ProjectionScreen from './components/projection/Round2ProjectionScreen.vue'
 
 import Round1CaptureScreen from './components/capture/Round1CaptureScreen.vue'
 
@@ -30,6 +32,11 @@ export default new Router({
       name: 'round1',
       component: Round1Screen
     },
+    {
+      path: '/round2',
+      name: 'round2',
+      component: Round2Screen
+    },
     // 投影ウィンドウ
     {
       path: '/empty',
@@ -45,6 +52,11 @@ export default new Router({
       path: '/round1Projection',
       name: 'round1Projection',
       component: Round1ProjectionScreen
+    },
+    {
+      path: '/round2Projection',
+      name: 'round2Projection',
+      component: Round2ProjectionScreen
     },
     // ツイートキャプチャ用ウィンドウ
     {
