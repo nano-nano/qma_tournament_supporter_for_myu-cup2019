@@ -146,7 +146,7 @@ export default {
       FileUtils.loadAllPlayersData().then((loadData) => {
         if (loadData == null) return
 
-        const nPlayers = 12
+        const nPlayers = loadData.filter((e) => { return e.roundDatas['R2'] != undefined }).length
         for (let set = 1; set <= (Math.ceil(nPlayers / 4)); set++) {
           for (let seat = 1; seat <= 4; seat++) {
             const extracted = PlayerUtils.extractPlayerDataBySetSeatNo(loadData, 'R2', set, seat)
@@ -243,7 +243,7 @@ export default {
         return FileUtils.loadAllPlayersData()
       }).then((loadData) => {
         // 勝ち抜けたプレイヤーのEntryNoを抽出する
-        let targetPlayersEntryNo = loadData.filter((e) => { return e.roundDatas['R2'].isWin == true })
+        let targetPlayersEntryNo = loadData.filter((e) => { return (e.roundDatas['R2'] != undefined && e.roundDatas['R2'].isWin == true) })
           .map((e) => { return e.entryNo })
         // シャッフルする
         CommonUtils.shuffleArray(targetPlayersEntryNo)
@@ -302,7 +302,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.commit('updateCurrentScreen', 'round1')
+    this.$store.commit('updateCurrentScreen', 'round2')
     this.loadRoundPlayersData()
   },
   watch: {

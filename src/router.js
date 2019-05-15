@@ -12,6 +12,7 @@ import Round1ProjectionScreen from './components/projection/Round1ProjectionScre
 import Round2ProjectionScreen from './components/projection/Round2ProjectionScreen.vue'
 
 import Round1CaptureScreen from './components/capture/Round1CaptureScreen.vue'
+import Round2CaptureScreen from './components/capture/Round2CaptureScreen.vue'
 
 Vue.use(Router)
 
@@ -63,6 +64,11 @@ export default new Router({
       path: '/round1Capture',
       name: 'round1Capture',
       component: Round1CaptureScreen
+    },
+    {
+      path: '/round2Capture',
+      name: 'round2Capture',
+      component: Round2CaptureScreen
     },
   ]
 })

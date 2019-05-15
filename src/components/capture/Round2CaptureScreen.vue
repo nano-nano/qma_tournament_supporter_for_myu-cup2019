@@ -5,7 +5,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-text>１回戦　[32 → 16]</b-nav-text>
+          <b-nav-text>２回戦　[16 → 8]</b-nav-text>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -84,13 +84,11 @@ export default {
       FileUtils.loadAllPlayersData().then((loadData) => {
         if (loadData == null) return
 
-        const nPlayers = loadData.length
+        const nPlayers = loadData.filter((e) => { return e.roundDatas['R2'] != undefined }).length
         for (let set = 1; set <= (Math.ceil(nPlayers / 4)); set++) {
           for (let seat = 1; seat <= 4; seat++) {
-            let extracted = PlayerUtils.extractPlayerDataBySetSeatNo(loadData, 'R1', set, seat)
-            // プレイヤーデータが取得できなかった場合はダミープレイヤーで上書きする
-            if (extracted == null) extracted = PlayerUtils.createDummyPlayer('R1', set, seat)
-            const roundData = extracted.roundDatas['R1']
+            let extracted = PlayerUtils.extractPlayerDataBySetSeatNo(loadData, 'R2', set, seat)
+            const roundData = extracted.roundDatas['R2']
             this.extractedPlayersData.push({
                 entryNo: extracted.entryNo,
                 cardName: extracted.cardName,

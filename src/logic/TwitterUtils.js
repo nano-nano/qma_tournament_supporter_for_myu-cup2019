@@ -22,6 +22,13 @@ const TWEET_CONTENT = [
     {id: 102, round: 'R1', description: '１回戦試合結果（全試合）',
         twiMsg: TWEET_COMMON_PREFIX + '１回戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
         screenName: 'round1Capture', screenHeight: 1230},
+    // 2回戦
+    {id: 201, round: 'R2', description: '２回戦組み合わせ（全試合）',
+        twiMsg: TWEET_COMMON_PREFIX + '２回戦組み合わせ（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'round2Capture', screenHeight: 690},
+    {id: 202, round: 'R2', description: '２回戦試合結果（全試合）',
+    twiMsg: TWEET_COMMON_PREFIX + '２回戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'round2Capture', screenHeight: 690},
 ]
 
 export default class TwitterUtils {
@@ -64,9 +71,11 @@ export default class TwitterUtils {
         return this.captureScreen(content).then((picturePath) => {
             // 画像をPOST
             return this.postPicture(FileUtils.loadFileSyncBase64(picturePath))
+            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         }).then((media) => {
             // テキストをPOST
             return this.postStatus(content, media)
+            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         })
     }
 
