@@ -94,6 +94,8 @@ export default {
         return '１回戦'
       } else if (name == 'round2') {
         return '２回戦'
+      } else if (name == 'semiFinal') {
+        return '準決勝戦'
       }
       return ''
     },

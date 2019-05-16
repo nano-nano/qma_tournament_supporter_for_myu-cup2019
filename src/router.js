@@ -5,6 +5,7 @@ import MainScreen from './components/MainScreen.vue'
 import EntryScreen from './components/EntryScreen.vue'
 import Round1Screen from './components/Round1Screen.vue'
 import Round2Screen from './components/Round2Screen.vue'
+import SemiFinalScreen from './components/SemiFinalScreen.vue'
 
 import EmptyScreen from './components/projection/EmptyScreen.vue'
 import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
@@ -37,6 +38,11 @@ export default new Router({
       path: '/round2',
       name: 'round2',
       component: Round2Screen
+    },
+    {
+      path: '/semiFinal',
+      name: 'semiFinal',
+      component: SemiFinalScreen
     },
     // 投影ウィンドウ
     {
