@@ -47,7 +47,7 @@
                   {{playerData.entryNo}}
                 </td>
                 <td style="text-align: center; vertical-align: middle; font-size:90%" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
-                  {{playerData.cardName}}
+                  {{playerData.isSubCard ? '★' : ''}}{{playerData.cardName}}
                 </td>
                 <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-select v-model="playerData.genre" :options="GENRE" style="font-size:75%"></b-form-select>

@@ -19,7 +19,7 @@
               <tr>
                 <th>試合ID</th>
                 <th>Entry</th>
-                <th>カードネーム</th>
+                <th>カードネーム（★: サブカ）</th>
                 <th>ジャンル</th>
                 <th>形式</th>
                 <th>難易度</th>
@@ -37,7 +37,7 @@
                   {{playerData.entryNo}}
                 </td>
                 <td style="text-align: center; vertical-align: middle; font-size:90%" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
-                  {{playerData.cardName}}
+                  {{playerData.isSubCard ? '★' : ''}}{{playerData.cardName}}
                 </td>
                 <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   {{playerData.genre}}

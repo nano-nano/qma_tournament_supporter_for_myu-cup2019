@@ -27,9 +27,16 @@ const TWEET_CONTENT = [
         twiMsg: TWEET_COMMON_PREFIX + '２回戦組み合わせ（全試合）' + TWEET_COMMON_SUFFIX,
         screenName: 'round2Capture', screenHeight: 690},
     {id: 202, round: 'R2', description: '２回戦試合結果（全試合）',
-    twiMsg: TWEET_COMMON_PREFIX + '２回戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
+        twiMsg: TWEET_COMMON_PREFIX + '２回戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
         screenName: 'round2Capture', screenHeight: 690},
-]
+    // 準決勝戦
+    {id: 301, round: 'SF', description: '準決勝戦組み合わせ（全試合）',
+        twiMsg: TWEET_COMMON_PREFIX + '準決勝戦組み合わせ（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'semiFinalCapture', screenHeight: 430},
+    {id: 302, round: 'SF', description: '準決勝戦試合結果（全試合）',
+        twiMsg: TWEET_COMMON_PREFIX + '準決勝戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'semiFinalCapture', screenHeight: 430},
+    ]
 
 export default class TwitterUtils {
 
@@ -70,12 +77,12 @@ export default class TwitterUtils {
         // キャプチャ画像生成
         return this.captureScreen(content).then((picturePath) => {
             // 画像をPOST
-            return this.postPicture(FileUtils.loadFileSyncBase64(picturePath))
-            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
+            // return this.postPicture(FileUtils.loadFileSyncBase64(picturePath))
+            return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         }).then((media) => {
             // テキストをPOST
-            return this.postStatus(content, media)
-            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
+            // return this.postStatus(content, media)
+            return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         })
     }
 

@@ -47,7 +47,7 @@
                   {{playerData.entryNo}}
                 </td>
                 <td style="text-align: center; vertical-align: middle; font-size:90%" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
-                  {{playerData.cardName}}
+                  {{playerData.isSubCard ? '★' : ''}}{{playerData.cardName}}
                 </td>
                 <td style="text-align: center; vertical-align: middle;" :class="computeTableClass(playerData.entryNo == 999, playerData.setNo % 2 == 0)">
                   <b-form-select v-model="playerData.genre" :options="GENRE" style="font-size:75%"></b-form-select>
@@ -85,7 +85,7 @@
 
       <b-row align-h="end">
         <b-col cols="3">
-          <b-button variant="outline-primary" block @click="drawingForNextRound()">2回戦終了</b-button>
+          <b-button variant="outline-primary" block @click="drawingForNextRound()">準決勝戦終了</b-button>
         </b-col>
       </b-row>
 
@@ -98,6 +98,7 @@
       v-on:onSuccessTweet="onTweetSucceeded()" v-on:onFailTweet="onTweetFailed()"></twitter-select-dialog>
     <notification-dialog ref="successTweetNotificationDialog" message="速報ツイートに成功しました！"></notification-dialog>
     <error-dialog ref="tweetErrorDialog" message="速報ツイートに失敗しました"></error-dialog>
+    <prepare-final-dialog ref="prepareFinalDialog" v-on:onSuccess="onSuccessPrepareFinal()"></prepare-final-dialog>
   </div>
 </template>
 
@@ -115,6 +116,7 @@ import TwitterUtils from '../logic/TwitterUtils.js'
 import NotificationDialog from './common/NotificationDialog'
 import ErrorDialog from './common/ErrorDialog'
 import TwitterSelectDialog from './common/TwitterSelectDialog'
+import PrepareFinalDialog from './PrepareFinalDialog'
 
 export default {
   name: 'Round1Screen',
@@ -122,6 +124,7 @@ export default {
     NotificationDialog,
     ErrorDialog,
     TwitterSelectDialog,
+    PrepareFinalDialog
   },
   data () {
     return {
@@ -239,21 +242,11 @@ export default {
         // 現時点での成績を保存する
         return FileUtils.saveAllPlayersData(updatedData)
       }).then(() => {
-        // 再度読み込む
-        return FileUtils.loadAllPlayersData()
-      }).then((loadData) => {
-        // 勝ち抜けたプレイヤーのEntryNoを抽出する
-        let targetPlayersEntryNo = loadData.filter((e) => { return (e.roundDatas['SF'] != undefined && e.roundDatas['SF'].isWin == true) })
-          .map((e) => { return e.entryNo })
-
-        // TODO: 席順データは手入力
-
-        return loadData
-      }).then((updatedData) => {
-        return FileUtils.saveAllPlayersData(updatedData)
-      }).then(() => {
-        this.$refs['finishNotificationDialog'].show()
+        this.$refs['prepareFinalDialog'].show()
       })
+    },
+    onSuccessPrepareFinal () {
+      this.$refs['saveNotificationDialog'].show()
     },
     updateProjectionScreen () {
       this.$store.commit('sendMsgToProjectionScreen', {channel: 'update', args: null})
