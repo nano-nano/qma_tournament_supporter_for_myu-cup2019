@@ -64,7 +64,7 @@ export default {
       FileUtils.loadAllPlayersData().then((loadData) => {
         if (loadData == null) return
 
-        const nPlayers = 16
+        const nPlayers = 8
         let rowSets
         for (let set = 1; set <= (Math.ceil(nPlayers / 4)); set++) {
           if (((set - 1) % SETS_PAR_ROW) == 0) {

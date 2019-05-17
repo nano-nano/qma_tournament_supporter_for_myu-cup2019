@@ -13,6 +13,7 @@ import TestDisplayScreen from './components/projection/TestDisplayScreen.vue'
 import Round1ProjectionScreen from './components/projection/Round1ProjectionScreen.vue'
 import Round2ProjectionScreen from './components/projection/Round2ProjectionScreen.vue'
 import SemiFinalProjectionScreen from './components/projection/SemiFinalProjectionScreen.vue'
+import FinalProjectionScreen from './components/projection/FinalProjectionScreen.vue'
 
 import Round1CaptureScreen from './components/capture/Round1CaptureScreen.vue'
 import Round2CaptureScreen from './components/capture/Round2CaptureScreen.vue'
@@ -77,6 +78,11 @@ export default new Router({
       path: '/semiFinalProjection',
       name: 'semiFinalProjection',
       component: SemiFinalProjectionScreen
+    },
+    {
+      path: '/finalProjection',
+      name: 'finalProjection',
+      component: FinalProjectionScreen
     },
     // ツイートキャプチャ用ウィンドウ
     {
