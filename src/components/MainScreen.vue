@@ -14,7 +14,7 @@
         <b-button size="lg" block variant="outline-primary" @click="goAnotherScreen('semiFinal')">準決勝戦</b-button>
       </b-row>
       <b-row>
-        <b-button size="lg" block variant="outline-primary" disabled>決勝戦</b-button>
+        <b-button size="lg" block variant="outline-primary" @click="goAnotherScreen('final')">決勝戦</b-button>
       </b-row>
     </b-container>
   </div>

@@ -96,6 +96,8 @@ export default {
         return '２回戦'
       } else if (name == 'semiFinal') {
         return '準決勝戦'
+      } else if (name == 'final') {
+        return '決勝戦'
       }
       return ''
     },
@@ -109,7 +111,13 @@ export default {
               && name != 'test'
               && name != 'round1projection'
               && name != 'round2projection'
-              && name != 'round1Capture')
+              && name != 'semiFinalprojection'
+              && name != 'inalprojection'
+              && name != 'round1Capture'
+              && name != 'round2Capture'
+              && name != 'semiFinalCapture'
+              && name != 'finalCapture'
+              )
     }
   }
 }

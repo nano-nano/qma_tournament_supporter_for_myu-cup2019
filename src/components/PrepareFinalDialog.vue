@@ -51,7 +51,9 @@ import PlayerUtils from '../logic/PlayerUtils.js'
           for (let playerData of extractedPlayers) {
             if (playerData.roundDatas['F'] == undefined) {
               // データが無ければ作る
-              playerData.roundDatas['F'] = PlayerUtils.createEmptyRoundData()
+              let finalData = PlayerUtils.createEmptyRoundData()
+              finalData.setNo = 1
+              playerData.roundDatas['F'] = finalData
             }
             this.finalistPlayersData.push(playerData)
           }
