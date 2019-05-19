@@ -18,14 +18,14 @@
           </thead>
           <tbody v-for="(playerData, idx) of displayedData" :key="idx">
             <tr>
-              <td rowspan="3" width="40%">
+              <td rowspan="3" width="35%">
                 EntryNo. {{playerData.entryNo}}<br>
                 {{playerData.cardName}}
               </td>
               <td>
-                １回戦: <br>
-                ２回戦: <br>
-                準決勝戦: <br>
+                １回戦: {{getSelectedQuizLabel(playerData.roundDatas['R1'])}}<br>
+                ２回戦: {{getSelectedQuizLabel(playerData.roundDatas['R2'])}}<br>
+                準決勝戦: {{getSelectedQuizLabel(playerData.roundDatas['SF'])}}<br>
               </td>
             </tr>
           </tbody>
@@ -69,6 +69,9 @@ export default {
     showCloseUpDialog (setNo) {
       this.$refs['setCloseUpDialog'].toggleDialog(setNo)
     },
+    getSelectedQuizLabel (roundData) {
+      return roundData.genre + ' / ' + roundData.style + '　' + roundData.rank + '位'
+    }
   },
   mounted: function () {
     this.loadRoundPlayersData()

@@ -18,6 +18,7 @@ import FinalProjectionScreen from './components/projection/FinalProjectionScreen
 import Round1CaptureScreen from './components/capture/Round1CaptureScreen.vue'
 import Round2CaptureScreen from './components/capture/Round2CaptureScreen.vue'
 import SemiFinalCaptureScreen from './components/capture/SemiFinalCaptureScreen.vue'
+import FinalCaptureScreen from './components/capture/FinalCaptureScreen.vue'
 
 Vue.use(Router)
 
@@ -99,6 +100,11 @@ export default new Router({
       path: '/semiFinalCapture',
       name: 'semiFinalCapture',
       component: SemiFinalCaptureScreen
+    },
+    {
+      path: '/finalCapture',
+      name: 'finalCapture',
+      component: FinalCaptureScreen
     },
   ]
 })

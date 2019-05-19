@@ -36,6 +36,13 @@ const TWEET_CONTENT = [
     {id: 302, round: 'SF', description: '準決勝戦試合結果（全試合）',
         twiMsg: TWEET_COMMON_PREFIX + '準決勝戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
         screenName: 'semiFinalCapture', screenHeight: 430},
+    // 決勝戦
+    {id: 401, round: 'F', description: '決勝戦組み合わせ（全試合）',
+        twiMsg: TWEET_COMMON_PREFIX + '決勝戦組み合わせ（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'finalCapture', screenHeight: 300},
+    {id: 402, round: 'F', description: '決勝戦試合結果（全試合）',
+        twiMsg: TWEET_COMMON_PREFIX + '決勝戦試合結果（全試合）' + TWEET_COMMON_SUFFIX,
+        screenName: 'finalCapture', screenHeight: 300},
     ]
 
 export default class TwitterUtils {
@@ -77,17 +84,17 @@ export default class TwitterUtils {
         // キャプチャ画像生成
         return this.captureScreen(content).then((picturePath) => {
             // 画像をPOST
-            // return this.postPicture(FileUtils.loadFileSyncBase64(picturePath))
-            return Promise.resolve()  // デバッグ用（ツイートさせない設定）
+            return this.postPicture(FileUtils.loadFileSyncBase64(picturePath))
+            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         }).then((media) => {
             // テキストをPOST
-            // return this.postStatus(content, media)
-            return Promise.resolve()  // デバッグ用（ツイートさせない設定）
+            return this.postStatus(content, media)
+            // return Promise.resolve()  // デバッグ用（ツイートさせない設定）
         })
     }
 
     static captureScreen (content) {
-        return new Promise((resolve, _) => {
+        return new Promise((resolve, ) => {
             const remote = require('electron').remote
             const BrowserWindow = remote.BrowserWindow
     

@@ -23,7 +23,6 @@
             <template slot="button-content"><em>その他設定</em></template>
             <b-dropdown-item href="#" @click="showScoreImportUrlDialog()">試合結果取得設定</b-dropdown-item>
             <b-dropdown-item href="#" @click="openTwitterAuth()">Twitter認証設定</b-dropdown-item>
-            <b-dropdown-item href="#">設定項目2</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item right href="#" v-if="isNeedShowGoMainScreenBtn" @click="goMainScreen()">メイン画面へ</b-nav-item>
         </b-navbar-nav>
@@ -112,6 +111,7 @@ export default {
               && name != 'round1projection'
               && name != 'round2projection'
               && name != 'semiFinalprojection'
+              && name != 'finalprojection'
               && name != 'inalprojection'
               && name != 'round1Capture'
               && name != 'round2Capture'
