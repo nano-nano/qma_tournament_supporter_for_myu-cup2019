@@ -2,11 +2,13 @@
 
 QMA店舗大会支援システム for MYUCUP VIvid poetry
 
+
 ## これはなに？
 
 クイズマジックアカデミーシリーズ(QMA)の店舗大会にて、組み合わせ表示等を行うための大会運営支援システムです。
 
 2019年6月15日に上尾ミナミボウルにて開催される「MYUCUP VIvid poetry」用にカスタマイズされています。
+
 
 ## 機能
 
@@ -16,9 +18,22 @@ QMA店舗大会支援システム for MYUCUP VIvid poetry
 - QMA公式サイトからの成績自動インポート
 - 組み合わせ、試合結果のTwitter連携
 
+
 ## 操作方法
 
 準備中...
+
+
+
+## ライセンス
+
+プログラム本体については [MIT License](https://github.com/tcnksm/tool/blob/master/LICENCE) です。
+
+
+## 作者
+
+Nano-Nano
+[@nano2_aloerina](https://twitter.com/nano2_aloerina)
 
 
 ## 開発者向け情報
