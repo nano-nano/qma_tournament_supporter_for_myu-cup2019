@@ -22,7 +22,7 @@ export default new Vuex.Store({
       const remote = require('electron').remote
       const BrowserWindow = remote.BrowserWindow
 
-      let winOptions = { width: 1280, height: 720, autoHideMenuBar: true }
+      let winOptions = { width: 1280, height: 720, autoHideMenuBar: true, enableLargerThanScreen: true }
       if (payload.options != null) {
         winOptions = payload.options
       }

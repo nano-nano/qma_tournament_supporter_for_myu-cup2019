@@ -99,10 +99,10 @@ export default {
 /* ナビゲーションバー */
 a.navbar-brand {
   font-family: "Cameliabold";
-  font-size: 2.4rem;
+  font-size: 2.4vmax;
 }
 div#nav-collapse {
-  font-size: 2.0rem;
+  font-size: 2.0vmax;
 }
 
 /* メインコンテンツ */
@@ -110,9 +110,9 @@ div.container {
   margin-top: 125px;
 }
 b.setName {
-  font-size: 2.4rem;
+  font-size: 2.0vmax;
 }
 th, td {
-  font-size: 2.0rem;
+  font-size: 2.0vmax;
 }
 </style>
