@@ -113,6 +113,6 @@ b.setName {
   font-size: 2.0vmax;
 }
 th, td {
-  font-size: 2.0vmax;
+  font-size: 1.8vmax;
 }
 </style>

@@ -180,12 +180,13 @@ export default {
         for (let importedData of importedDataArray) {
             for (let parentData of this.extractedPlayersData) {
                 if (parentData.cardName == importedData.cardName) {
+                    if (parentData.genre != '') break
                     // データを設定
                     parentData.genre = importedData.genre
                     parentData.style = importedData.style
                     parentData.difficulty = importedData.difficulty
                     parentData.score = importedData.score
-                    targetSetNo = parentData.roundDatas['R1'].setNo
+                    targetSetNo = parentData.setNo
                     break
                 }
             }
@@ -203,7 +204,8 @@ export default {
           solid: true,
           autoHideDelay: 5000,
         })
-      }).catch(() => {
+      }).catch((e) => {
+        console.debug(e)
         this.isScoreImporting = false
         // 処理結果をtoastで表示
         this.$bvToast.toast('成績取り込みに失敗しました', {

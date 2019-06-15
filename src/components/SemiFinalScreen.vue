@@ -186,7 +186,6 @@ export default {
                     parentData.style = importedData.style
                     parentData.difficulty = importedData.difficulty
                     parentData.score = importedData.score
-                    targetSetNo = parentData.roundDatas['SF'].setNo
                     break
                 }
             }
